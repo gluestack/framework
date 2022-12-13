@@ -1,0 +1,10 @@
+import { copyToTarget } from "./copyToTarget";
+
+export async function postInstall(targetFolder: string) {
+  /* Uncomment to add ENTER_TEMPLATE_PATH as sourceFolder of template
+    await copyToTarget(
+      ENTER_TEMPLATE_PATH,
+      targetFolder,
+    );
+  */
+}

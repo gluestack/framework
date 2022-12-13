@@ -13,13 +13,18 @@ commander.init = async () => {
 	}
 	program
 		.name('glue')
-		.version('GlueStack Version ' + version)
-		.description('GlueStack framework');
+		.version('gluestack Version ' + version)
+		.description('gluestack framework');
 };
 
 // adds all the commands from the directory
 commander.addCommands = async () => {
 	commands().forEach((cmd) => cmd(program));
+};
+
+// adds all the commands from the directory
+commander.addCommand = async (program) => {
+	return cmd(program);
 };
 
 // parses and closes the command

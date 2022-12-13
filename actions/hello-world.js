@@ -1,3 +1,5 @@
+const { info } = require('../helpers/print');
+
 module.exports = async () => {
-	console.log("\nHello world!\n")
+	info('Hello world!');
 };
