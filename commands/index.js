@@ -3,6 +3,7 @@ const commands = () => {
 		require('./hello-world'),
 		require('./plugin-init'),
 		require('./publish'),
+		require('./plugin-version'),
 		require('./install'),
 	];
 };

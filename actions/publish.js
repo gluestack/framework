@@ -1,3 +1,4 @@
+const { exec } = require('child_process');
 const { fileExists } = require('../helpers/file');
 const build = require('../helpers/plugin/build');
 const { error, success } = require('../helpers/print');
@@ -19,11 +20,6 @@ async function getAndValidatePackageJson(filepath) {
 	return packageJson;
 }
 
-async function getPlugin(currentDir) {
-	const { GlueStackPlugin } = require(`${currentDir}`);
-	return new GlueStackPlugin();
-}
-
 module.exports = async () => {
 	const currentDir = process.cwd();
 	const filepath = currentDir + '/package.json';
@@ -31,11 +27,6 @@ module.exports = async () => {
 	const packageJson = await getAndValidatePackageJson(filepath);
 	await build(currentDir);
 
-	const plugin = await getPlugin(currentDir);
-
-	success(
-		`Successfully published ${
-			packageJson.name
-		}:${plugin.getVersion()} as a plugin`
-	);
+	await exec(`node glue plugin-version`);
+	success('Run `node glue plugin-version` in terminal');
 };
