@@ -1,7 +1,7 @@
 const { exec } = require('child_process');
 const { fileExists } = require('../helpers/file');
 const build = require('../helpers/plugin/build');
-const { error, success } = require('../helpers/print');
+const { error, success, info } = require('../helpers/print');
 
 async function getAndValidatePackageJson(filepath) {
 	if (!fileExists(filepath)) {
@@ -25,6 +25,19 @@ module.exports = async () => {
 	const filepath = currentDir + '/package.json';
 
 	const packageJson = await getAndValidatePackageJson(filepath);
+	await new Promise((resolve, reject) => {
+		exec(
+			'npm install tsc typescript @types/node',
+			async (error, stdout, stderr) => {
+				if (error) {
+					reject(error);
+					return;
+				}
+				info(stdout);
+				resolve(true);
+			}
+		);
+	});
 	await build(currentDir);
 
 	await exec(`node glue plugin-version`);
