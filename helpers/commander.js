@@ -18,13 +18,9 @@ commander.init = async () => {
 };
 
 // adds all the commands from the directory
-commander.addCommands = async () => {
+commander.addCommands = async (app) => {
 	commands().forEach((cmd) => cmd(program));
-};
-
-// adds all the commands from the directory
-commander.addCommand = async (program) => {
-	return cmd(program);
+	app.commands.forEach((cmd) => cmd(program));
 };
 
 // parses and closes the command

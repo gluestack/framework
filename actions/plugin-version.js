@@ -1,4 +1,5 @@
 const { fileExists } = require('../helpers/file');
+const getPlugin = require('../helpers/getPlugin');
 const { success, error } = require('../helpers/print');
 
 async function getAndValidatePackageJson(filepath) {
@@ -18,22 +19,12 @@ async function getAndValidatePackageJson(filepath) {
 	return packageJson;
 }
 
-async function getPlugin(currentDir) {
-	try {
-		const { GlueStackPlugin } = require(`${currentDir}`);
-		return new GlueStackPlugin();
-	} catch (e) {
-		error('Plugin not initialized');
-		process.exit(0);
-	}
-}
-
 module.exports = async () => {
 	const currentDir = process.cwd();
 	const filepath = currentDir + '/package.json';
 	const packageJson = await getAndValidatePackageJson(filepath);
 
-	const plugin = await getPlugin(currentDir);
+	const plugin = await getPlugin(currentDir, true);
 
 	success(`${packageJson.name} is at v${plugin.getVersion()}`);
 };

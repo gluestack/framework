@@ -1,4 +1,5 @@
 const { readFile, writeFile } = require('../file');
+const getPlugin = require('../getPlugin');
 
 const writePlugin = async (
 	pluginFilePath,
@@ -37,16 +38,9 @@ const bootPlugins = async () => {
 		return;
 	}
 
-	return data.filter((item) => {
-		try {
-			const {
-				GlueStackPlugin,
-			} = require(`${projectPath}/${item.package}`);
-			const plugin = new GlueStackPlugin();
-			plugin.runBootstrap();
-		} catch (e) {
-			//
-		}
+	return data.filter(async (item) => {
+		const plugin = await getPlugin(`${projectPath}/${item.package}`);
+		plugin.runBootstrap();
 	});
 };
 

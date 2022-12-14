@@ -1,36 +1,21 @@
 #!/usr/bin/env node
 
-const commander = require('./helpers/commander');
+const app = require('./lib/app');
 const { bootPlugins } = require('./helpers/meta/plugins');
+const { init, addCommands, close } = require('./helpers/commander');
 
-class App {
-	constructor(commander) {
-		this.cli = commander;
-	}
-	populatePlugins(plugins) {
-		this.plugins = plugins;
-	}
-}
-
-const commanderInit = async () => {
+const commanderInit = async (app) => {
 	// initialise the commander
-	await commander.init();
+	await init();
 
 	// register commands to the commander
-	await commander.addCommands();
+	await addCommands(app);
 
 	// close commander
-	await commander.close();
-};
-
-const initApp = async () => {
-	return new App(commander);
+	await close();
 };
 
 const glue = async () => {
-	// initialise the commander
-	const app = await initApp(commander);
-
 	// initialise the commander
 	app.populatePlugins(await bootPlugins());
 

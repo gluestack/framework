@@ -5,6 +5,11 @@ import { postInstall } from "./postInstall";
 
 export class GlueStackPlugin implements IGlueStackPlugin {
 	name: string = 'My Plugin';
+	app: any = null;
+	
+	constructor(app: any) {
+		this.app = app;
+	}
 	 
 	getVersion(): string {
 		return packageJSON.version;

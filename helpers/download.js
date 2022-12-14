@@ -1,3 +1,4 @@
+const getPlugin = require('./getPlugin');
 const { info } = require('./print');
 const exec = require('child_process').exec;
 
@@ -16,12 +17,6 @@ async function execute(steps, folderPath) {
 	}
 }
 
-async function getPlugin(packageName) {
-	let dir = `${process.cwd()}/node_modules/${packageName}`;
-	const { GlueStackPlugin } = require(`${dir}`);
-	return new GlueStackPlugin();
-}
-
 module.exports = async (
 	serviceName,
 	packageName,
@@ -33,7 +28,9 @@ module.exports = async (
 	);
 	await execute([`npm install ${packageName}`], folderPath);
 
-	const plugin = await getPlugin(packageName);
+	const plugin = await getPlugin(
+		`${process.cwd()}/node_modules/${packageName}`
+	);
 	await plugin.runPostInstall(folderName);
 
 	await execute([

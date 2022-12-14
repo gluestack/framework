@@ -4,6 +4,7 @@ const commands = () => {
 		require('./plugin-init'),
 		require('./publish'),
 		require('./plugin-version'),
+		require('./plugin-list'),
 		require('./install'),
 	];
 };
