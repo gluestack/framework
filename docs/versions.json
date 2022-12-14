@@ -1,0 +1,24 @@
+{
+	"versions": [
+		{
+			"1.0.x": {
+				"sidebar": [
+					{
+						"type": "framework",
+						"title": "docs for the framwork",
+						"pages": [
+							{
+								"id": "getting-started",
+								"title": "Getting Started"
+							},
+							{
+								"id": "cli",
+								"title": "CLI"
+							}
+						]
+					}
+				]
+			}
+		}
+	]
+}
