@@ -89,17 +89,14 @@ module.exports = async (type) => {
 	await copyPluginFiles(currentDir, type);
 	await createTemplateFolder(currentDir, packageJson);
 	await new Promise((resolve, reject) => {
-		exec(
-			'npm uninstall -g typescript && npm install -g typescript && npm install @types/node',
-			async (error, stdout, stderr) => {
-				if (error) {
-					reject(error);
-					return;
-				}
-				info(stdout);
-				resolve(true);
+		exec('npm install @types/node', async (error, stdout, stderr) => {
+			if (error) {
+				reject(error);
+				return;
 			}
-		);
+			info(stdout);
+			resolve(true);
+		});
 	});
 
 	success(`Successfully initialized ${packageJson.name} as a plugin`);
