@@ -3,45 +3,49 @@ const https = require('https');
 const { setVar } = require('../helpers/variables');
 const { fileExists, rm } = require('../helpers/file');
 const download = require('../helpers/download');
-const { service: metaService } = require('../helpers/meta/service');
+const {
+	pluginInstance: metaPluginInstance,
+} = require('../helpers/meta/plugin-instances');
 const metaExists = require('../helpers/meta/exists');
 const { success, error, newline } = require('../helpers/print');
 const { writePlugin } = require('../helpers/meta/plugins');
+const getPlugin = require('../helpers/getPlugin');
 
-async function validateAndGet(serviceName, directoryName) {
+async function validateAndGet(pluginName, directoryName) {
 	/*
 	try {
-		await checkForPackage(serviceName);
+		await checkForPackage(pluginName);
 	} catch (e) {
-		error(`"${serviceName}" is not supported`);
+		error(`"${pluginName}" is not supported`);
 		process.exit(0);
 	}
 	*/
 
-	// adding the installed services
-	const serviceFilePath = 'meta/services.json';
-	const pluginFilePath = 'meta/plugins.json';
+	// adding the installed plugins
+	const pluginInstancesFilePath =
+		process.cwd() + '/meta/plugin-instances.json';
+	const pluginFilePath = process.cwd() + '/meta/plugins.json';
 
-	if (!fileExists(serviceFilePath)) {
+	if (!fileExists(pluginFilePath)) {
 		error(
-			"Meta files missing. Please goto project's root directory."
+			"Meta file is missing. Please go to project's root directory."
 		);
 		process.exit(0);
 	}
 
 	const folderName = directoryName;
 
-	// check if service exists
-	await metaExists(serviceFilePath, serviceName, folderName);
+	// check if plugin exists
+	await metaExists(pluginInstancesFilePath, pluginName, folderName);
 
-	return { serviceFilePath, pluginFilePath, folderName };
+	return { pluginInstancesFilePath, pluginFilePath, folderName };
 }
 
-function checkForPackage(serviceName) {
+function checkForPackage(pluginName) {
 	return new Promise((resolve, reject) => {
 		https
 			.get(
-				`https://registry.npmjs.org/@gluestack/${serviceName}`,
+				`https://registry.npmjs.org/@gluestack/${pluginName}`,
 				(res) => {
 					if (res.statusCode === 200) {
 						let body = '';
@@ -60,32 +64,40 @@ function checkForPackage(serviceName) {
 	});
 }
 
-module.exports = async (serviceName, directoryName) => {
-	setVar('serviceName', serviceName);
+module.exports = async (pluginName, directoryName) => {
+	setVar('pluginName', pluginName);
 
-	const { serviceFilePath, pluginFilePath, folderName } =
-		await validateAndGet(serviceName, directoryName);
+	const { pluginInstancesFilePath, pluginFilePath, folderName } =
+		await validateAndGet(pluginName, directoryName);
 
 	const folderPath = `./${folderName}`;
 
-	// download service project
+	// download plugin project
 	await download(
-		serviceName,
-		`@gluestack/${serviceName}`,
+		pluginName,
+		`@gluestack/${pluginName}`,
 		folderPath,
 		folderName
 	);
 
-	// updates meta/services.json file
-	await metaService(serviceFilePath, serviceName, 'app', folderName);
-	await writePlugin(
-		pluginFilePath,
-		serviceName,
-		'app',
-		`node_modules/@gluestack/${serviceName}`,
+	const packageName = `node_modules/@gluestack/${pluginName}`;
+	const packagePath = `${process.cwd()}/${packageName}`;
+
+	const plugin = await getPlugin(packagePath, true);
+
+	await plugin.runPostInstall(folderPath);
+
+	// updates meta/plugin-instances.json file
+	await metaPluginInstance(
+		pluginInstancesFilePath,
+		pluginName,
+		plugin,
 		folderName
 	);
+	await writePlugin(pluginFilePath, packageName, pluginName, plugin);
 
-	success('Successfully installed service', folderName);
+	success(
+		`Sucessfully installed '${pluginName}' in directory '${folderName}'`
+	);
 	newline();
 };

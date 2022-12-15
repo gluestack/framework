@@ -15,9 +15,10 @@ const commanderInit = async (app) => {
 	await close();
 };
 
-const glue = async () => {
+const glue = async (localPlugins = []) => {
 	// initialise the commander
-	app.populatePlugins(await bootPlugins());
+
+	app.populatePlugins(await bootPlugins(localPlugins));
 
 	await commanderInit(app);
 

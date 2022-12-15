@@ -1,12 +1,13 @@
 const app = require('../lib/app');
+const { error } = require('./print');
 
 function getPlugin(path, throwErrorAndExit = false) {
 	try {
-		const { GlueStackPlugin } = require(path);
-		return new GlueStackPlugin(app);
+		const { MyGlueStackPlugin } = require(path);
+		return new MyGlueStackPlugin(app);
 	} catch (e) {
 		if (throwErrorAndExit) {
-			error('Plugin not initialized');
+			error('Plugin not initialized', e);
 			process.exit(0);
 		}
 	}

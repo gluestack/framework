@@ -1,34 +1,32 @@
+const { isEmpty } = require('lodash');
 const { readFile, writeFile } = require('../file');
 const getPlugin = require('../getPlugin');
+const app = require('../../lib/app');
+const { error } = require('../print');
 
 const writePlugin = async (
 	pluginFilePath,
-	serviceName,
-	serviceType,
 	packageName,
-	directoryName = ''
+	pluginName,
+	plugin
 ) => {
-	const projectPath = process.cwd();
-
-	let data = await readFile(`${projectPath}/${pluginFilePath}`);
+	let data = await readFile(pluginFilePath);
 	if (!data) {
 		error('Meta plugins file is corrupted.');
 		process.exit(0);
 	}
-	data.push({
-		name: serviceName,
-		directory: directoryName,
-		package: packageName,
-		type: serviceType,
-	});
-	// write services in file
-	await writeFile(
-		`${projectPath}/${pluginFilePath}`,
-		JSON.stringify(data, null, 2)
-	);
+
+	if (!data[pluginName]) {
+		data[pluginName] = {
+			package: packageName,
+		};
+		// write services in file
+		await writeFile(pluginFilePath, JSON.stringify(data, null, 2));
+	}
 };
 
-const bootPlugins = async () => {
+const bootPlugins = async (localPlugins) => {
+	/*
 	const pluginFilePath = 'meta/plugins.json';
 	const projectPath = process.cwd();
 
@@ -38,10 +36,88 @@ const bootPlugins = async () => {
 		return;
 	}
 
-	return data.filter(async (item) => {
-		const plugin = await getPlugin(`${projectPath}/${item.package}`);
+	const packages = uniq(map(data, 'package'));
+
+	return packages.map(async (package) => {
+		const plugin = await getPlugin(`${projectPath}/${package}`);
 		plugin.runBootstrap();
+	});
+	*/
+
+	const plugins = await getTopToBottomPluginTree(process.cwd());
+	plugins.map((plugin) => {
+		return plugin.plugin.runBootstrap();
+	});
+	localPlugins.map((PluginClass) => {
+		return new PluginClass(app).runBootstrap();
 	});
 };
 
-module.exports = { bootPlugins, writePlugin };
+const getPluginTree = async (path, depth = 0, tree = {}) => {
+	let key = depth ? 'peerDependencies' : 'dependencies';
+	const pluginFilePath = `${path}/package.json`;
+
+	let data = await readFile(pluginFilePath);
+
+	if (!data[key] || isEmpty(data[key])) {
+		return null;
+	}
+
+	const plugins = Object.keys(data[key]).filter((package) => {
+		if (package.indexOf('@gluestack/') !== -1) return package;
+	});
+
+	if (!plugins || !plugins.length) {
+		return null;
+	}
+
+	for (const plugin of plugins) {
+		tree[plugin] = {
+			plugin: await getPlugin(`${path}/node_modules/${plugin}`),
+			dependencies: await getPluginTree(
+				`${path}/node_modules/${plugin}`,
+				++depth
+			),
+		};
+	}
+
+	return tree;
+};
+
+async function getTopToBottomPluginTree(path) {
+	const tree = await getPluginTree(path);
+
+	function recursivelyJoinArray(tree, arr = []) {
+		if (tree && !isEmpty(tree)) {
+			Object.keys(tree).map((key) => {
+				if (tree[key].plugin) {
+					arr.push({
+						key: key,
+						plugin: tree[key].plugin,
+					});
+				}
+			});
+			Object.keys(tree).map((key) => {
+				if (tree[key].dependencies) {
+					recursivelyJoinArray(tree[key].dependencies, arr);
+				}
+			});
+		}
+		return arr;
+	}
+
+	return recursivelyJoinArray(tree, []);
+}
+
+async function getBottomToTopPluginTree(path) {
+	const array = await getTopToBottomPluginTree(path);
+	return array.reverse();
+}
+
+module.exports = {
+	bootPlugins,
+	writePlugin,
+	getPluginTree,
+	getTopToBottomPluginTree,
+	getBottomToTopPluginTree,
+};
