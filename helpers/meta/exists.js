@@ -12,9 +12,9 @@ module.exports = async (pluginPath, pluginName, folderName) => {
 
 	if (data[pluginName]) {
 		map(data[pluginName], (pluginInstance) => {
-			if (pluginInstance.directory === folderName) {
+			if (pluginInstance.instance === folderName) {
 				warning(
-					`Service "${pluginName}" already exist in your project in "${folderName}" directory`
+					`Plugin "${pluginName}" already exist in your project as "${folderName}" instance`
 				);
 				process.exit(0);
 			}

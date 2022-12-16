@@ -60,7 +60,7 @@ async function printInstalledPluginInstances() {
 	newline();
 }
 
-module.exports = async (type) => {
-	// await printInstalledPlugins();
+module.exports = async () => {
+	await printInstalledPlugins();
 	await printInstalledPluginInstances();
 };

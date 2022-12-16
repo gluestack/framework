@@ -20,7 +20,7 @@ const writePlugin = async (
 		data[pluginName] = {
 			package: packageName,
 		};
-		// write services in file
+		// write plugins in file
 		await writeFile(pluginFilePath, JSON.stringify(data, null, 2));
 	}
 };
@@ -45,11 +45,21 @@ const bootPlugins = async (localPlugins) => {
 	*/
 
 	const plugins = await getTopToBottomPluginTree(process.cwd());
-	plugins.map((plugin) => {
-		return plugin.plugin.runBootstrap();
+	let bootedPlugins = plugins.map((plugin) => {
+		return plugin.plugin;
 	});
-	localPlugins.map((PluginClass) => {
-		return new PluginClass(app).runBootstrap();
+	let bootedLocalPlugins = localPlugins.map((PluginClass) => {
+		return new PluginClass(app);
+	});
+	let mergedPlugins = bootedPlugins.concat(bootedLocalPlugins);
+	//unique installed and local plugins
+	mergedPlugins = [
+		...new Map(
+			mergedPlugins.map((item) => [item.getName(), item])
+		).values(),
+	];
+	return mergedPlugins.map((mergedPlugin) => {
+		return mergedPlugin.runBootstrap();
 	});
 };
 

@@ -3,11 +3,11 @@ const { error } = require('./print');
 
 function getPlugin(path, throwErrorAndExit = false) {
 	try {
-		const { MyGlueStackPlugin } = require(path);
-		return new MyGlueStackPlugin(app);
+		const { GlueStackPlugin } = require(path);
+		return new GlueStackPlugin(app);
 	} catch (e) {
 		if (throwErrorAndExit) {
-			error('Plugin not initialized', e);
+			error('Plugin not initialized');
 			process.exit(0);
 		}
 	}

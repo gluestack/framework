@@ -1,4 +1,4 @@
-export default interface IGlueStackCreatesPluginInstance {
+export default interface IPlugin {
 	getName(): string;
 	getVersion(): string;
 	runPostInstall(target: string): any;

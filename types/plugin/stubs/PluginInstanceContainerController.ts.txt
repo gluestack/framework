@@ -1,0 +1,26 @@
+import IInstance from "@gluestack/framework/types/plugin/interface/IInstance";
+import IContainerController from "@gluestack/framework/types/plugin/interface/IContainerController";
+
+export class PluginInstanceContainerController implements IContainerController {
+  app: any;
+  callerInstance: IInstance;
+
+  constructor(app: any, callerInstance: IInstance) {
+    this.app = app;
+    this.callerInstance = callerInstance;
+  }
+
+  getCallerInstance(): IInstance {
+    return this.callerInstance;
+  }
+
+  getEnv() {
+    return "MY_VAR=5";
+  }
+
+  getDockerJson() {
+    return {
+      "name": "MY_NAME"
+    };
+  }
+}

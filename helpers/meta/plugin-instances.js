@@ -1,11 +1,12 @@
+const { isEmpty } = require('lodash');
 const { error } = require('../print');
-const { getVar } = require('../variables');
 const { readFile, writeFile } = require('../file');
+const { getTopToBottomPluginTree } = require('./plugins');
 
 const pluginInstance = async (
 	pluginInstancesFilePath,
 	packageName,
-	plugin,
+	instanceName,
 	directoryName
 ) => {
 	let data = await readFile(pluginInstancesFilePath);
@@ -17,7 +18,8 @@ const pluginInstance = async (
 		data[packageName] = [];
 	}
 	data[packageName].push({
-		directory: directoryName || packageName,
+		instance: instanceName,
+		directory: directoryName,
 		container_store: {},
 	});
 
@@ -28,4 +30,36 @@ const pluginInstance = async (
 	);
 };
 
-module.exports = { pluginInstance };
+async function attachPluginInstances(path, plugins) {
+	const pluginInstancesFilePath = `${path}/meta/plugin-instances.json`;
+	const pluginInstances = await readFile(pluginInstancesFilePath);
+	if (!pluginInstances || isEmpty(pluginInstances)) {
+		return;
+	}
+
+	for (const { plugin } of plugins) {
+		const instances = pluginInstances[plugin.getName()];
+		if (instances) {
+			for (const { instance } of instances) {
+				plugin.createInstance(instance);
+			}
+		}
+	}
+}
+
+async function getTopToBottomPluginInstanceTree(path) {
+	const plugins = await getTopToBottomPluginTree(path);
+	await attachPluginInstances(path, plugins);
+	return plugins;
+}
+
+async function getBottomToTopPluginInstanceTree(path) {
+	const array = await getTopToBottomPluginInstanceTree(path);
+	return array.reverse();
+}
+
+module.exports = {
+	pluginInstance,
+	getTopToBottomPluginInstanceTree,
+	getBottomToTopPluginInstanceTree,
+};

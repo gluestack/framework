@@ -1,0 +1,50 @@
+//@ts-ignore
+import packageJSON from "../package.json";
+import { PluginInstance } from "./PluginInstance";
+import IPlugin from "@gluestack/framework/types/plugin/interface/IPlugin";
+import IInstance from "@gluestack/framework/types/plugin/interface/IInstance";
+import IManagesInstances from "@gluestack/framework/types/plugin/interface/IManagesInstances";
+
+//Do not edit the name of this class
+export class GlueStackPlugin implements IPlugin, IManagesInstances {
+  app: any;
+  instances: IInstance[];
+
+  constructor(app: any) {
+    this.app = app;
+    this.instances = [];
+  }
+
+  getName(): string {
+    return packageJSON.name;
+  }
+
+  getVersion(): string {
+    return packageJSON.version;
+  }
+
+  runBootstrap() {
+    console.log(`Booting ${this.getName()}...`);
+  }
+
+  getTemplateFolderPath(): string {
+    return `${process.cwd()}/node_modules/${this.getName()}/template`;
+  }
+
+  async runPostInstall(target: string) {
+    return await this.app.createPluginInstance(
+      this.getTemplateFolderPath(),
+      target,
+    );
+  }
+
+  createInstance(key: string): IInstance {
+    const instance = new PluginInstance(this.app, this, key);
+    this.instances.push(instance);
+    return instance;
+  }
+
+  getInstances(): IInstance[] {
+    return this.instances;
+  }
+}
