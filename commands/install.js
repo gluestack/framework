@@ -10,18 +10,18 @@ module.exports = async (program) => {
 	const command = program
 		.command('install')
 		.description(
-			'installs the service or feature, use help for more info on subcommands'
+			'installs a gluestack plugin, use help for more info on subcommands'
 		)
 		.addArgument(
 			new Argument(
-				'<service-name>',
-				'name of the service from app-services group'
+				'<plugin-name>',
+				'name of the plugin from gluestack group'
 			)
 		)
 		.addArgument(
 			new Argument(
 				'<directory-name>',
-				'name of the directory for app-services'
+				'name of the directory to install the plugin'
 			)
 		)
 		.action(install);

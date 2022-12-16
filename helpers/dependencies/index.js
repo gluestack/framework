@@ -4,6 +4,7 @@ const { dockerStatus } = require('./docker-status');
 const { hasura } = require('./hasura');
 const { node } = require('./node');
 const { yarn } = require('./yarn');
+const { tsc } = require('./tsc');
 
 const dependencies = {
 	docker: 'docker',
@@ -21,5 +22,6 @@ module.exports = {
 	hasura,
 	node,
 	yarn,
+	tsc,
 	dependencies,
 };

@@ -1,3 +1,4 @@
+const { exec } = require('child_process');
 const {
 	fileExists,
 	readFile,
@@ -5,29 +6,21 @@ const {
 	copyFile,
 	createFolder,
 } = require('../helpers/file');
-const { error, warning, success } = require('../helpers/print');
+const { error, warning, success, info } = require('../helpers/print');
 const mainEntryPoint = 'dist/src/index.js';
+const os = require('os');
+const runDoctorPlugin = require('./doctorPlugin');
 
-const pluginStubFiles = [
-	{
-		dir: 'src',
-		source:
-			'node_modules/@gluestack/framework/types/plugin/stubs/index.ts.txt',
-		target: 'src/index.ts',
-	},
-	{
-		dir: 'src',
-		source:
-			'node_modules/@gluestack/framework/types/plugin/stubs/copyToTarget.ts.txt',
-		target: 'src/copyToTarget.ts',
-	},
-	{
-		dir: 'src',
-		source:
-			'node_modules/@gluestack/framework/types/plugin/stubs/postInstall.ts.txt',
-		target: 'src/postInstall.ts',
-	},
-];
+const pluginStubFiles = {
+	instance: [
+		{
+			dir: 'src',
+			source:
+				'node_modules/@gluestack/framework/types/plugin/stubs/GlueStackCreatesPluginInstance.ts.txt',
+			target: 'src/index.ts',
+		},
+	],
+};
 
 async function getAndValidatePackageJson(filepath) {
 	if (!fileExists(filepath)) {
@@ -56,35 +49,54 @@ async function writeToPackageJson(filepath, packageJson) {
 	}
 	const json = await readFile(filepath);
 	json.main = mainEntryPoint;
-	json.scripts = {
-		...json.scripts,
-		'build-plugin': 'tsc',
-	};
-	await writeFile(filepath, JSON.stringify(json));
-	return packageJson.name;
+	await writeFile(filepath, JSON.stringify(json, null, 2) + os.EOL);
+	return json.name;
 }
 
-async function copyPluginFiles(currentDir) {
-	for (const stubFile of pluginStubFiles) {
-		if (stubFile.dir) {
-			if (!(await fileExists(stubFile.dir))) {
-				await createFolder(stubFile.dir);
+async function copyPluginFiles(currentDir, type) {
+	if (pluginStubFiles[type]) {
+		for (const stubFile of pluginStubFiles[type]) {
+			if (stubFile.dir) {
+				if (!(await fileExists(stubFile.dir))) {
+					await createFolder(stubFile.dir);
+				}
 			}
+			await copyFile(
+				`${currentDir}/${stubFile.source}`,
+				`${currentDir}/${stubFile.target}`
+			);
 		}
-		await copyFile(
-			`${currentDir}/${stubFile.source}`,
-			`${currentDir}/${stubFile.target}`
-		);
 	}
 }
 
-module.exports = async () => {
+async function createTemplateFolder(currentDir, packageJson) {
+	await createFolder(`${currentDir}/template`);
+	await writeFile(
+		`${currentDir}/template/README.md`,
+		packageJson.name
+	);
+}
+
+module.exports = async (type) => {
+	await runDoctorPlugin();
 	const currentDir = process.cwd();
 	const filepath = currentDir + '/package.json';
 
 	const packageJson = await getAndValidatePackageJson(filepath);
 	await writeToPackageJson(filepath, packageJson);
-	await copyPluginFiles(currentDir);
+	await copyPluginFiles(currentDir, type);
+	await createTemplateFolder(currentDir, packageJson);
+	await new Promise((resolve, reject) => {
+		exec('npm install @types/node', async (error, stdout, stderr) => {
+			if (error) {
+				reject(error);
+				return;
+			}
+			info(stdout);
+			resolve(true);
+		});
+	});
 
 	success(`Successfully initialized ${packageJson.name} as a plugin`);
+	info('Run `node glue publish` in terminal to publish this plugin');
 };

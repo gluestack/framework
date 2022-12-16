@@ -1,7 +1,7 @@
-const { exec } = require('child_process');
 const { fileExists } = require('../helpers/file');
 const build = require('../helpers/plugin/build');
-const { error, success, info } = require('../helpers/print');
+const { error, success, info, warning } = require('../helpers/print');
+const mainEntryPoint = 'dist/src/index.js';
 
 async function getAndValidatePackageJson(filepath) {
 	if (!fileExists(filepath)) {
@@ -17,6 +17,13 @@ async function getAndValidatePackageJson(filepath) {
 		);
 		process.exit(0);
 	}
+	if (
+		!packageJson.main ||
+		(packageJson.main && packageJson.main !== mainEntryPoint)
+	) {
+		warning('Plugin publish command failed: plugin not initialized');
+		process.exit(0);
+	}
 	return packageJson;
 }
 
@@ -25,21 +32,8 @@ module.exports = async () => {
 	const filepath = currentDir + '/package.json';
 
 	const packageJson = await getAndValidatePackageJson(filepath);
-	await new Promise((resolve, reject) => {
-		exec(
-			'npm install tsc typescript @types/node',
-			async (error, stdout, stderr) => {
-				if (error) {
-					reject(error);
-					return;
-				}
-				info(stdout);
-				resolve(true);
-			}
-		);
-	});
 	await build(currentDir);
 
-	await exec(`node glue plugin-version`);
-	success('Run `node glue plugin-version` in terminal');
+	success(`Successfully published a plugin`);
+	info('Run `node glue plugin-version` in terminal');
 };

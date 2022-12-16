@@ -1,5 +1,6 @@
 const getPlugin = require('./getPlugin');
 const { info } = require('./print');
+// const { copyFolder } = require('../helpers/file');
 const exec = require('child_process').exec;
 
 async function execute(steps, folderPath) {
@@ -18,22 +19,21 @@ async function execute(steps, folderPath) {
 }
 
 module.exports = async (
-	serviceName,
+	pluginName,
 	packageName,
 	folderPath,
 	folderName
 ) => {
 	info(
-		`Installing '${serviceName}' from '${packageName}' in directory '${folderName}'`
+		`Installing '${pluginName}' from '${packageName}' in directory '${folderName}'`
 	);
 	await execute([`npm install ${packageName}`], folderPath);
 
-	const plugin = await getPlugin(
-		`${process.cwd()}/node_modules/${packageName}`
-	);
+	/*
 	await plugin.runPostInstall(folderName);
 
 	await execute([
-		`echo "Sucessfully installed '${serviceName}' in directory '${folderName}'"`,
+		`echo "Sucessfully installed '${pluginName}' in directory '${folderName}'"`,
 	]);
+	*/
 };
