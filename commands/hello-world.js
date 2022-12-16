@@ -3,7 +3,7 @@
  */
 const command = require('../actions/hello-world');
 
-module.exports = async (program) => {
+module.exports = async (program, app) => {
 	// hello-world project command
 	program
 		.command('hello-world')

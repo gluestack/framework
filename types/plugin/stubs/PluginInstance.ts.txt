@@ -1,16 +1,32 @@
 import IPlugin from "@gluestack/framework/types/plugin/interface/IPlugin";
 import IInstance from "@gluestack/framework/types/plugin/interface/IInstance";
+import IGlueStorePlugin from "@gluestack/framework/types/store/interface/IGluePluginStore";
 
 export class PluginInstance implements IInstance {
   app: any;
   name: string;
   callerPlugin: IPlugin;
   isOfTypeInstance: boolean = true;
+  gluePluginStore: IGlueStorePlugin;
 
-  constructor(app: any, callerPlugin: IPlugin, name: string) {
+  constructor(
+    app: any,
+    callerPlugin: IPlugin,
+    name: string,
+    gluePluginStore: IGlueStorePlugin,
+  ) {
     this.app = app;
     this.name = name;
     this.callerPlugin = callerPlugin;
+    this.gluePluginStore = gluePluginStore;
+  }
+
+  init() {
+    //
+  }
+
+  destroy() {
+    //
   }
 
   getName(): string {

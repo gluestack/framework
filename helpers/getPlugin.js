@@ -1,10 +1,23 @@
-const app = require('../lib/app');
+const { getPluginStorePath } = require('./getStorePath');
 const { error } = require('./print');
 
-function getPlugin(path, throwErrorAndExit = false) {
+function inject(app, pluginName) {
+	const store = app.gluePluginStoreFactory.createPluginStoreInstance(
+		getPluginStorePath(pluginName)
+	);
+	store.restore();
+	return store;
+}
+
+function getPlugin(
+	app,
+	path,
+	pluginName = null,
+	throwErrorAndExit = false
+) {
 	try {
 		const { GlueStackPlugin } = require(path);
-		return new GlueStackPlugin(app);
+		return new GlueStackPlugin(app, inject(app, pluginName));
 	} catch (e) {
 		if (throwErrorAndExit) {
 			error('Plugin not initialized');

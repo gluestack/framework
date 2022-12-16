@@ -24,8 +24,8 @@ function printPlugins(plugins) {
 	warning('No plugins are installed in your app.');
 }
 
-async function printInstalledPlugins() {
-	const plugins = await getTopToBottomPluginTree(process.cwd());
+async function printInstalledPlugins(app) {
+	const plugins = await getTopToBottomPluginTree(app, process.cwd());
 	printPlugins(plugins);
 	newline();
 }
@@ -52,15 +52,16 @@ function printPluginInstances(plugins) {
 	warning('No plugins are installed in your app.');
 }
 
-async function printInstalledPluginInstances() {
+async function printInstalledPluginInstances(app) {
 	const plugins = await getTopToBottomPluginInstanceTree(
+		app,
 		process.cwd()
 	);
 	printPluginInstances(plugins);
 	newline();
 }
 
-module.exports = async (type) => {
-	// await printInstalledPlugins();
-	await printInstalledPluginInstances();
+module.exports = async (app) => {
+	await printInstalledPlugins(app);
+	await printInstalledPluginInstances(app);
 };

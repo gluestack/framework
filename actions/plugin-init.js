@@ -103,7 +103,7 @@ async function createTemplateFolder(currentDir, packageJson) {
 	);
 }
 
-module.exports = async (type) => {
+module.exports = async (app, type) => {
 	await runDoctorPlugin();
 	const currentDir = process.cwd();
 	const filepath = currentDir + '/package.json';
