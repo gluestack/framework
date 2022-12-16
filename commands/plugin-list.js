@@ -3,9 +3,8 @@
  */
 
 const pluginList = require('../actions/plugin-list');
-const installedPluginList = require('../actions/installed-plugin-list');
 
-module.exports = async (program) => {
+module.exports = async (program, app) => {
 	const command = program
 		.command('plugin-list')
 		.description('Prints the list of available plugins')

@@ -1,7 +1,6 @@
 const { isEmpty } = require('lodash');
 const { readFile, writeFile } = require('../file');
 const getPlugin = require('../getPlugin');
-const app = require('../../lib/app');
 const { error } = require('../print');
 
 const writePlugin = async (
@@ -25,45 +24,7 @@ const writePlugin = async (
 	}
 };
 
-const bootPlugins = async (localPlugins) => {
-	/*
-	const pluginFilePath = 'meta/plugins.json';
-	const projectPath = process.cwd();
-
-	let data = await readFile(`${projectPath}/${pluginFilePath}`);
-
-	if (!data) {
-		return;
-	}
-
-	const packages = uniq(map(data, 'package'));
-
-	return packages.map(async (package) => {
-		const plugin = await getPlugin(`${projectPath}/${package}`);
-		plugin.runBootstrap();
-	});
-	*/
-
-	const plugins = await getTopToBottomPluginTree(process.cwd());
-	let bootedPlugins = plugins.map((plugin) => {
-		return plugin.plugin;
-	});
-	let bootedLocalPlugins = localPlugins.map((PluginClass) => {
-		return new PluginClass(app);
-	});
-	let mergedPlugins = bootedPlugins.concat(bootedLocalPlugins);
-	//unique installed and local plugins
-	mergedPlugins = [
-		...new Map(
-			mergedPlugins.map((item) => [item.getName(), item])
-		).values(),
-	];
-	return mergedPlugins.map((mergedPlugin) => {
-		return mergedPlugin.runBootstrap();
-	});
-};
-
-const getPluginTree = async (path, depth = 0, tree = {}) => {
+const getPluginTree = async (app, path, depth = 0, tree = {}) => {
 	let key = depth ? 'peerDependencies' : 'dependencies';
 	const pluginFilePath = `${path}/package.json`;
 
@@ -83,9 +44,14 @@ const getPluginTree = async (path, depth = 0, tree = {}) => {
 
 	for (const plugin of plugins) {
 		tree[plugin] = {
-			plugin: await getPlugin(`${path}/node_modules/${plugin}`),
+			plugin: await getPlugin(
+				app,
+				`${path}/node_modules/${plugin}`,
+				plugin
+			),
 			dependencies: await getPluginTree(
 				`${path}/node_modules/${plugin}`,
+				plugin,
 				++depth
 			),
 		};
@@ -94,8 +60,8 @@ const getPluginTree = async (path, depth = 0, tree = {}) => {
 	return tree;
 };
 
-async function getTopToBottomPluginTree(path) {
-	const tree = await getPluginTree(path);
+async function getTopToBottomPluginTree(app, path) {
+	const tree = await getPluginTree(app, path);
 
 	function recursivelyJoinArray(tree, arr = []) {
 		if (tree && !isEmpty(tree)) {
@@ -119,13 +85,12 @@ async function getTopToBottomPluginTree(path) {
 	return recursivelyJoinArray(tree, []);
 }
 
-async function getBottomToTopPluginTree(path) {
-	const array = await getTopToBottomPluginTree(path);
+async function getBottomToTopPluginTree(app, path) {
+	const array = await getTopToBottomPluginTree(app, path);
 	return array.reverse();
 }
 
 module.exports = {
-	bootPlugins,
 	writePlugin,
 	getPluginTree,
 	getTopToBottomPluginTree,

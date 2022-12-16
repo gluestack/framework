@@ -4,9 +4,11 @@
 
 const publish = require('../actions/publish');
 
-module.exports = async (program) => {
+module.exports = async (program, app) => {
 	program
 		.command('publish')
 		.description('Publishes the gluestack app as a plugin')
-		.action(publish);
+		.action(() => {
+			publish(app);
+		});
 };

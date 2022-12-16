@@ -19,12 +19,12 @@ commander.init = async () => {
 
 // adds all the commands from the directory
 commander.addCommands = async (app) => {
-	commands().forEach((cmd) => cmd(program));
-	app.commands.forEach((cmd) => cmd(program));
+	commands().forEach((cmd) => cmd(program, app));
+	app.commands.forEach((cmd) => cmd(program, app));
 };
 
 // parses and closes the command
-commander.close = async () => {
+commander.destroy = async () => {
 	program.parseAsync();
 };
 

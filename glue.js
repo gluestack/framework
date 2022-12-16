@@ -1,28 +1,38 @@
 #!/usr/bin/env node
 
-const app = require('./lib/app');
-const { bootPlugins } = require('./helpers/meta/plugins');
-const { init, addCommands, close } = require('./helpers/commander');
+const App = require('./lib/app');
+const commander = require('./helpers/commander');
 
 const commanderInit = async (app) => {
 	// initialise the commander
-	await init();
+	await commander.init();
 
 	// register commands to the commander
-	await addCommands(app);
+	await commander.addCommands(app);
+};
+
+const init = () => {
+	return new App();
+};
+
+const destroy = async (app) => {
+	await app.destroyPlugins();
+
+	app.gluePluginStoreFactory.saveAllStores();
 
 	// close commander
-	await close();
+	await commander.destroy();
 };
 
 const glue = async (localPlugins = []) => {
-	// initialise the commander
+	const app = init();
 
-	app.populatePlugins(await bootPlugins(localPlugins));
+	await app.initPlugins(localPlugins);
 
 	await commanderInit(app);
 
-	// app.plugins["web"].getDockerFile();
+	await destroy(app);
+
 	return app;
 };
 

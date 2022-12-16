@@ -2,6 +2,7 @@ const { isEmpty } = require('lodash');
 const { error } = require('../print');
 const { readFile, writeFile } = require('../file');
 const { getTopToBottomPluginTree } = require('./plugins');
+const { getPluginInstanceStorePath } = require('../getStorePath');
 
 const pluginInstance = async (
 	pluginInstancesFilePath,
@@ -30,7 +31,15 @@ const pluginInstance = async (
 	);
 };
 
-async function attachPluginInstances(path, plugins) {
+function inject(app, instance, pluginName) {
+	const store = app.gluePluginStoreFactory.createPluginStoreInstance(
+		getPluginInstanceStorePath(instance, pluginName)
+	);
+	store.restore();
+	return store;
+}
+
+async function attachPluginInstances(app, path, plugins) {
 	const pluginInstancesFilePath = `${path}/meta/plugin-instances.json`;
 	const pluginInstances = await readFile(pluginInstancesFilePath);
 	if (!pluginInstances || isEmpty(pluginInstances)) {
@@ -41,20 +50,23 @@ async function attachPluginInstances(path, plugins) {
 		const instances = pluginInstances[plugin.getName()];
 		if (instances) {
 			for (const { instance } of instances) {
-				plugin.createInstance(instance);
+				plugin.createInstance(
+					instance,
+					inject(app, instance, plugin.getName())
+				);
 			}
 		}
 	}
 }
 
-async function getTopToBottomPluginInstanceTree(path) {
-	const plugins = await getTopToBottomPluginTree(path);
-	await attachPluginInstances(path, plugins);
+async function getTopToBottomPluginInstanceTree(app, path) {
+	const plugins = await getTopToBottomPluginTree(app, path);
+	await attachPluginInstances(app, path, plugins);
 	return plugins;
 }
 
-async function getBottomToTopPluginInstanceTree(path) {
-	const array = await getTopToBottomPluginInstanceTree(path);
+async function getBottomToTopPluginInstanceTree(app, path) {
+	const array = await getTopToBottomPluginInstanceTree(app, path);
 	return array.reverse();
 }
 

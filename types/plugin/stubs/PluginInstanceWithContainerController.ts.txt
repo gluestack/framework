@@ -3,6 +3,7 @@ import IInstance from "@gluestack/framework/types/plugin/interface/IInstance";
 import { PluginInstanceContainerController } from "./PluginInstanceContainerController";
 import IContainerController from "@gluestack/framework/types/plugin/interface/IContainerController";
 import IHasContainerController from "@gluestack/framework/types/plugin/interface/IHasContainerController";
+import IGlueStorePlugin from "@gluestack/framework/types/store/interface/IGluePluginStore";
 
 export class PluginInstance implements IInstance, IHasContainerController {
   app: any;
@@ -10,12 +11,27 @@ export class PluginInstance implements IInstance, IHasContainerController {
   callerPlugin: IPlugin;
   containerController: IContainerController;
   isOfTypeInstance: boolean = false;
+  gluePluginStore: IGlueStorePlugin;
 
-  constructor(app: any, callerPlugin: IPlugin, name: string) {
+  constructor(
+    app: any,
+    callerPlugin: IPlugin,
+    name: string,
+    gluePluginStore: IGlueStorePlugin,
+  ) {
     this.app = app;
     this.name = name;
     this.callerPlugin = callerPlugin;
     this.containerController = new PluginInstanceContainerController(app, this);
+    this.gluePluginStore = gluePluginStore;
+  }
+
+  init() {
+    //
+  }
+
+  destroy() {
+    //
   }
 
   getName(): string {

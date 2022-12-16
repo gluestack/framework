@@ -75,7 +75,7 @@ function checkForPackage(pluginName) {
 	});
 }
 
-module.exports = async (pluginName, directoryName) => {
+module.exports = async (app, pluginName, directoryName) => {
 	setVar('pluginName', pluginName);
 
 	const { pluginInstancesFilePath, pluginFilePath, folderName } =
@@ -101,7 +101,12 @@ module.exports = async (pluginName, directoryName) => {
 	const packageName = `node_modules/@gluestack/${pluginName}`;
 	const packagePath = `${process.cwd()}/${packageName}`;
 
-	const plugin = await getPlugin(packagePath, true);
+	const plugin = await getPlugin(
+		app,
+		packagePath,
+		`@gluestack/${pluginName}`,
+		true
+	);
 
 	await plugin.runPostInstall(folderPath);
 

@@ -5,7 +5,7 @@
 const { Argument } = require('commander');
 const install = require('../actions/install');
 
-module.exports = async (program) => {
+module.exports = async (program, app) => {
 	// install group command
 	const command = program
 		.command('install')
@@ -24,5 +24,7 @@ module.exports = async (program) => {
 				'name of the directory to install the plugin'
 			)
 		)
-		.action(install);
+		.action(async (pluginName, directoryName) => {
+			await install(app, pluginName, directoryName);
+		});
 };

@@ -19,12 +19,17 @@ async function getAndValidatePackageJson(filepath) {
 	return packageJson;
 }
 
-module.exports = async () => {
+module.exports = async (app) => {
 	const currentDir = process.cwd();
 	const filepath = currentDir + '/package.json';
 	const packageJson = await getAndValidatePackageJson(filepath);
 
-	const plugin = await getPlugin(currentDir, true);
+	const plugin = await getPlugin(
+		app,
+		currentDir,
+		`${packageJson.name}`,
+		true
+	);
 
 	success(`${packageJson.name} is at v${plugin.getVersion()}`);
 };
