@@ -9,6 +9,7 @@ const {
 const { error, warning, success, info } = require('../helpers/print');
 const mainEntryPoint = 'dist/src/index.js';
 const os = require('os');
+const runDoctorPlugin = require('./doctorPlugin');
 
 const pluginStubFiles = {
 	instance: [
@@ -48,10 +49,6 @@ async function writeToPackageJson(filepath, packageJson) {
 	}
 	const json = await readFile(filepath);
 	json.main = mainEntryPoint;
-	json.scripts = {
-		...json.scripts,
-		'build-plugin': 'tsc',
-	};
 	await writeFile(filepath, JSON.stringify(json, null, 2) + os.EOL);
 	return json.name;
 }
@@ -81,6 +78,7 @@ async function createTemplateFolder(currentDir, packageJson) {
 }
 
 module.exports = async (type) => {
+	await runDoctorPlugin();
 	const currentDir = process.cwd();
 	const filepath = currentDir + '/package.json';
 

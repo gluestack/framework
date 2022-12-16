@@ -25,7 +25,7 @@ async function copyTsFiles(currentDir) {
 }
 
 async function runner() {
-	const steps = ['npm run build-plugin'];
+	const steps = ['tsc'];
 	for (const step of steps) {
 		await new Promise((resolve, reject) => {
 			exec(step, async (err, stdout, stderr) => {
