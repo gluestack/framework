@@ -21,6 +21,13 @@ async function validateAndGet(pluginName, directoryName) {
 	}
 	*/
 
+	if (directoryName.indexOf('/') !== -1) {
+		error(
+			`${directoryName} is not valid, does not support nested directory.`
+		);
+		process.exit(0);
+	}
+
 	// adding the installed plugins
 	const pluginInstancesFilePath =
 		process.cwd() + '/meta/plugin-instances.json';
@@ -36,7 +43,11 @@ async function validateAndGet(pluginName, directoryName) {
 	const folderName = directoryName;
 
 	// check if plugin exists
-	await metaExists(pluginInstancesFilePath, pluginName, folderName);
+	await metaExists(
+		pluginInstancesFilePath,
+		`@gluestack/${pluginName}`,
+		folderName
+	);
 
 	return { pluginInstancesFilePath, pluginFilePath, folderName };
 }
@@ -72,6 +83,13 @@ module.exports = async (pluginName, directoryName) => {
 
 	const folderPath = `./${folderName}`;
 
+	if (!(await checkFolderIsEmpty(folderPath))) {
+		error(
+			`${pluginName} installed failed: ${folderPath} is not empty`
+		);
+		process.exit(0);
+	}
+
 	// download plugin project
 	await download(
 		pluginName,
@@ -90,11 +108,16 @@ module.exports = async (pluginName, directoryName) => {
 	// updates meta/plugin-instances.json file
 	await metaPluginInstance(
 		pluginInstancesFilePath,
-		pluginName,
-		plugin,
-		folderName
+		`@gluestack/${pluginName}`,
+		folderName,
+		folderPath
 	);
-	await writePlugin(pluginFilePath, packageName, pluginName, plugin);
+	await writePlugin(
+		pluginFilePath,
+		packageName,
+		`@gluestack/${pluginName}`,
+		plugin
+	);
 
 	success(
 		`Sucessfully installed '${pluginName}' in directory '${folderName}'`

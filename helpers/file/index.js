@@ -6,6 +6,7 @@ const { fileExists } = require('./file-exists');
 const { writeFile } = require('./write-file');
 const { readFile } = require('./read-file');
 const { rm } = require('./rm');
+const { checkFolderIsEmpty } = require('./check-folder-is-empty');
 
 module.exports = {
 	createFolder,
@@ -16,4 +17,5 @@ module.exports = {
 	writeFile,
 	appendFileContent,
 	rm,
+	checkFolderIsEmpty
 };

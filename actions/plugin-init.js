@@ -17,8 +17,34 @@ const pluginStubFiles = {
 		{
 			dir: 'src',
 			source:
-				'node_modules/@gluestack/framework/types/plugin/stubs/GlueStackCreatesPluginInstance.ts.txt',
+				'node_modules/@gluestack/framework/types/plugin/stubs/GlueStackPlugin.ts.txt',
 			target: 'src/index.ts',
+		},
+		{
+			dir: 'src',
+			source:
+				'node_modules/@gluestack/framework/types/plugin/stubs/PluginInstance.ts.txt',
+			target: 'src/PluginInstance.ts',
+		},
+	],
+	container: [
+		{
+			dir: 'src',
+			source:
+				'node_modules/@gluestack/framework/types/plugin/stubs/GlueStackPlugin.ts.txt',
+			target: 'src/index.ts',
+		},
+		{
+			dir: 'src',
+			source:
+				'node_modules/@gluestack/framework/types/plugin/stubs/PluginInstanceWithContainerController.ts.txt',
+			target: 'src/PluginInstance.ts',
+		},
+		{
+			dir: 'src',
+			source:
+				'node_modules/@gluestack/framework/types/plugin/stubs/PluginInstanceContainerController.ts.txt',
+			target: 'src/PluginInstanceContainerController.ts',
 		},
 	],
 };

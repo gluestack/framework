@@ -2,12 +2,11 @@
  * Installs the project or plugin
  */
 
-const pluginList = require('../actions/plugin-list');
 const installedPluginList = require('../actions/installed-plugin-list');
 
 module.exports = async (program) => {
 	const command = program
-		.command('plugin-list')
-		.description('Prints the list of available plugins')
-		.action(pluginList);
+		.command('instance-list')
+		.description('Prints the list of installed plugin instances')
+		.action(installedPluginList);
 };
