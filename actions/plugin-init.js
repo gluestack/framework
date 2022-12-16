@@ -10,6 +10,7 @@ const { error, warning, success, info } = require('../helpers/print');
 const mainEntryPoint = 'dist/src/index.js';
 const os = require('os');
 const runDoctorPlugin = require('./doctorPlugin');
+const build = require('../helpers/plugin/build');
 
 const pluginStubFiles = {
 	instance: [
@@ -75,6 +76,10 @@ async function writeToPackageJson(filepath, packageJson) {
 	}
 	const json = await readFile(filepath);
 	json.main = mainEntryPoint;
+	json.scripts = {
+		...json.scripts,
+		'dev-plugin': 'tsc --watch',
+	};
 	await writeFile(filepath, JSON.stringify(json, null, 2) + os.EOL);
 	return json.name;
 }
@@ -110,6 +115,7 @@ module.exports = async (app, type) => {
 
 	const packageJson = await getAndValidatePackageJson(filepath);
 	await writeToPackageJson(filepath, packageJson);
+	await build(currentDir);
 	await copyPluginFiles(currentDir, type);
 	await createTemplateFolder(currentDir, packageJson);
 	await new Promise((resolve, reject) => {
@@ -119,10 +125,42 @@ module.exports = async (app, type) => {
 				return;
 			}
 			info(stdout);
-			resolve(true);
+			exec(
+				'npm install typescript --save-dev',
+				async (error, stdout, stderr) => {
+					if (error) {
+						reject(error);
+						return;
+					}
+					info(stdout);
+					resolve(true);
+				}
+			);
 		});
 	});
 
-	success(`Successfully initialized ${packageJson.name} as a plugin`);
+	const replaceGlueStr = `
+	#!/usr/bin/env node
+
+	const {
+	   GlueStackPlugin,
+	} = require("./");
+	
+	require("@gluestack/framework")([GlueStackPlugin]);
+	
+	`;
+
+	success(
+		`Successfully initialized ${packageJson.name} as a plugin \n`
+	);
+
+	success(
+		`Please replace your glue file with this content for local development ${replaceGlueStr}`
+	);
+
+	success(
+		`A npm script named dev-plugin is added to your package.json, Please run "npm run dev-plugin" for development \n`
+	);
+
 	info('Run `node glue publish` in terminal to publish this plugin');
 };

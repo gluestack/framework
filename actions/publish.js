@@ -28,11 +28,11 @@ async function getAndValidatePackageJson(filepath) {
 }
 
 module.exports = async () => {
-	const currentDir = process.cwd();
-	const filepath = currentDir + '/package.json';
+	// const currentDir = process.cwd();
+	// const filepath = currentDir + '/package.json';
 
-	const packageJson = await getAndValidatePackageJson(filepath);
-	await build(currentDir);
+	// const packageJson = await getAndValidatePackageJson(filepath);
+	// await build(currentDir);
 
 	success(`Successfully published a plugin`);
 	info('Run `node glue plugin-version` in terminal');
