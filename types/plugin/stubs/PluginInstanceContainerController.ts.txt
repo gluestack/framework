@@ -1,11 +1,12 @@
+import IApp from "@gluestack/framework/types/app/interface/IApp";
 import IInstance from "@gluestack/framework/types/plugin/interface/IInstance";
 import IContainerController from "@gluestack/framework/types/plugin/interface/IContainerController";
 
 export class PluginInstanceContainerController implements IContainerController {
-  app: any;
+  app: IApp;
   callerInstance: IInstance;
 
-  constructor(app: any, callerInstance: IInstance) {
+  constructor(app: IApp, callerInstance: IInstance) {
     this.app = app;
     this.callerInstance = callerInstance;
   }

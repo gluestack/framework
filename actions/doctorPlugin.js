@@ -3,7 +3,7 @@ const { yarn, node, tsc } = require('../helpers/dependencies');
 const { info, error } = require('../helpers/print');
 
 const runDoctorPlugin = async () => {
-	const results = await Promise.allSettled([node(), yarn(), tsc()]);
+	const results = await Promise.allSettled([node()]);
 
 	let failed = false;
 

@@ -1,6 +1,7 @@
 const { isEmpty } = require('lodash');
 const { readFile, writeFile } = require('../file');
 const getPlugin = require('../getPlugin');
+const isGluePackage = require('../isGluePackage');
 const { error } = require('../print');
 
 const writePlugin = async (
@@ -35,7 +36,7 @@ const getPluginTree = async (app, path, depth = 0, tree = {}) => {
 	}
 
 	const plugins = Object.keys(data[key]).filter((package) => {
-		if (package.indexOf('@gluestack/') !== -1) return package;
+		if (isGluePackage(package)) return package;
 	});
 
 	if (!plugins || !plugins.length) {

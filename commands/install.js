@@ -8,7 +8,8 @@ const install = require('../actions/install');
 module.exports = async (program, app) => {
 	// install group command
 	const command = program
-		.command('install')
+		.command('add')
+		.alias('install')
 		.description(
 			'installs a gluestack plugin, use help for more info on subcommands'
 		)

@@ -1,4 +1,4 @@
-const { isEmpty } = require('lodash');
+const { isEmpty, indexOf } = require('lodash');
 const https = require('https');
 const { setVar } = require('../helpers/variables');
 const { fileExists, rm } = require('../helpers/file');
@@ -10,16 +10,21 @@ const metaExists = require('../helpers/meta/exists');
 const { success, error, newline } = require('../helpers/print');
 const { writePlugin } = require('../helpers/meta/plugins');
 const getPlugin = require('../helpers/getPlugin');
+const isGluePackage = require('../helpers/isGluePackage');
 
 async function validateAndGet(pluginName, directoryName) {
-	/*
-	try {
-		await checkForPackage(pluginName);
-	} catch (e) {
+	let packageName = pluginName;
+	if (!isGluePackage(pluginName)) {
 		error(`"${pluginName}" is not supported`);
 		process.exit(0);
 	}
-	*/
+
+	try {
+		await checkForPackage(pluginName);
+		packageName = `@gluestack/${pluginName}`;
+	} catch (e) {
+		//
+	}
 
 	if (directoryName.indexOf('/') !== -1) {
 		error(
@@ -49,7 +54,12 @@ async function validateAndGet(pluginName, directoryName) {
 		folderName
 	);
 
-	return { pluginInstancesFilePath, pluginFilePath, folderName };
+	return {
+		pluginInstancesFilePath,
+		pluginFilePath,
+		folderName,
+		packageName,
+	};
 }
 
 function checkForPackage(pluginName) {
@@ -78,8 +88,12 @@ function checkForPackage(pluginName) {
 module.exports = async (app, pluginName, directoryName) => {
 	setVar('pluginName', pluginName);
 
-	const { pluginInstancesFilePath, pluginFilePath, folderName } =
-		await validateAndGet(pluginName, directoryName);
+	const {
+		pluginInstancesFilePath,
+		pluginFilePath,
+		folderName,
+		packageName,
+	} = await validateAndGet(pluginName, directoryName);
 
 	const folderPath = `./${folderName}`;
 
@@ -91,36 +105,26 @@ module.exports = async (app, pluginName, directoryName) => {
 	}
 
 	// download plugin project
-	await download(
-		pluginName,
-		`@gluestack/${pluginName}`,
-		folderPath,
-		folderName
-	);
+	await download(pluginName, packageName, folderPath, folderName);
 
-	const packageName = `node_modules/@gluestack/${pluginName}`;
-	const packagePath = `${process.cwd()}/${packageName}`;
+	const nodeModulesPackageName = `node_modules/${packageName}`;
+	const packagePath = `${process.cwd()}/${nodeModulesPackageName}`;
 
-	const plugin = await getPlugin(
-		app,
-		packagePath,
-		`@gluestack/${pluginName}`,
-		true
-	);
+	const plugin = await getPlugin(app, packagePath, packageName, true);
 
 	await plugin.runPostInstall(folderPath);
 
 	// updates meta/plugin-instances.json file
 	await metaPluginInstance(
 		pluginInstancesFilePath,
-		`@gluestack/${pluginName}`,
+		packageName,
 		folderName,
 		folderPath
 	);
 	await writePlugin(
 		pluginFilePath,
+		nodeModulesPackageName,
 		packageName,
-		`@gluestack/${pluginName}`,
 		plugin
 	);
 

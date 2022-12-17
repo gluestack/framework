@@ -1,7 +1,8 @@
+import IApp from '../../app/interface/IApp';
 import IInstance from './IInstance';
 
 export default interface IContainerController {
-	app: any;
+	app: IApp;
 	callerInstance: IInstance;
 	getCallerInstance(): IInstance;
 	getEnv(): any;

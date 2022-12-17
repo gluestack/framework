@@ -78,7 +78,8 @@ async function writeToPackageJson(filepath, packageJson) {
 	json.main = mainEntryPoint;
 	json.scripts = {
 		...json.scripts,
-		'dev-plugin': 'tsc --watch',
+		'plugin-dev': 'tsc --watch',
+		'plugin-build': 'tsc',
 	};
 	await writeFile(filepath, JSON.stringify(json, null, 2) + os.EOL);
 	return json.name;
@@ -133,7 +134,17 @@ module.exports = async (app, type) => {
 						return;
 					}
 					info(stdout);
-					resolve(true);
+					exec(
+						'npm install --save-peer @gluestack/framework',
+						async (error, stdout, stderr) => {
+							if (error) {
+								reject(error);
+								return;
+							}
+							info(stdout);
+							resolve(true);
+						}
+					);
 				}
 			);
 		});
@@ -159,7 +170,7 @@ module.exports = async (app, type) => {
 	);
 
 	success(
-		`A npm script named dev-plugin is added to your package.json, Please run "npm run dev-plugin" for development \n`
+		`A npm script named plugin-dev is added to your package.json, Please run "npm run plugin-dev" for development \n`
 	);
 
 	info('Run `node glue publish` in terminal to publish this plugin');

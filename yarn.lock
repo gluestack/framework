@@ -3,9 +3,9 @@
 
 
 "@types/node@^18.11.14":
-  "integrity" "sha512-0KXV57tENYmmJMl+FekeW9V3O/rlcqGQQJ/hNh9r8pKIj304pskWuEd8fCyNT86g/TpO0gcOTiLzsHLEURFMIQ=="
-  "resolved" "https://registry.npmjs.org/@types/node/-/node-18.11.14.tgz"
-  "version" "18.11.14"
+  "integrity" "sha512-6T7P5bDkRhqRxrQtwj7vru+bWTpelgtcETAZEUSdq0YISKz8WKdoBukQLYQQ6DFHvU9JRsbFq0JH5C51X2ZdnA=="
+  "resolved" "https://registry.npmjs.org/@types/node/-/node-18.11.16.tgz"
+  "version" "18.11.16"
 
 "balanced-match@^1.0.0":
   "integrity" "sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw=="
