@@ -9,8 +9,8 @@ const node = async () =>
 
 		_spawn.stdout.on('data', (data) => {
 			data = data.toString().slice(1, -3);
-			if (+data < 16.16) {
-				error(`"NODE" version must be greater than or equal 16.16.0`);
+			if (+data < 16) {
+				error(`"NODE" version must be greater than or equal 16`);
 				return reject();
 			}
 		});

@@ -112,7 +112,7 @@ module.exports = async (app, pluginName, directoryName) => {
 
 	const plugin = await getPlugin(app, packagePath, packageName, true);
 
-	await plugin.runPostInstall(folderPath);
+	await plugin.runPostInstall(folderName, folderPath);
 
 	// updates meta/plugin-instances.json file
 	await metaPluginInstance(

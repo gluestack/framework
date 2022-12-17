@@ -13,8 +13,17 @@ function injectPluginStore(app, pluginName) {
 	return store;
 }
 
+function injectPluginInstanceStore(app, pluginName, instance) {
+	const store = app.gluePluginStoreFactory.createPluginStoreInstance(
+		getPluginInstanceStorePath(instance, pluginName)
+	);
+	store.restore();
+	return store;
+}
+
 module.exports = {
 	getPluginStorePath,
 	getPluginInstanceStorePath,
 	injectPluginStore,
+	injectPluginInstanceStore,
 };

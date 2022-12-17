@@ -18,10 +18,10 @@ const init = () => {
 const destroy = async (app) => {
 	await app.destroyPlugins();
 
-	app.gluePluginStoreFactory.saveAllStores();
-
 	// close commander
 	await commander.destroy();
+
+	app.gluePluginStoreFactory.saveAllStores();
 };
 
 const glue = async (localPlugins = []) => {

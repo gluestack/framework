@@ -25,7 +25,7 @@ commander.addCommands = async (app) => {
 
 // parses and closes the command
 commander.destroy = async () => {
-	program.parseAsync();
+	await program.parseAsync();
 };
 
 module.exports = commander;

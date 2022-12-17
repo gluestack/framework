@@ -3,6 +3,6 @@ export default interface IPlugin {
 	destroy(): any;
 	getName(): string;
 	getVersion(): string;
-	runPostInstall(target: string): any;
+	runPostInstall(instanceName: string, target: string): any;
 	getTemplateFolderPath(): string;
 }
