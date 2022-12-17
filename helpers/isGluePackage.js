@@ -1,6 +1,12 @@
 module.exports = (pluginName) => {
-	if (pluginName.indexOf('glue-plugin-') === -1) {
-		return false;
+	if (pluginName.startsWith('glue-plugin-')) {
+		return true;
 	}
-	return true;
+	if (pluginName.startsWith('@')) {
+		let arr = pluginName.split(['/']);
+		if (arr[1] && arr[1].startsWith('glue-plugin-')) {
+			return true;
+		}
+	}
+	return false;
 };
