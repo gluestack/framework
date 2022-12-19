@@ -21,11 +21,11 @@ module.exports = async (program, app) => {
 		)
 		.addArgument(
 			new Argument(
-				'<directory-name>',
-				'name of the directory to install the plugin'
+				'<instance-name>',
+				'name of the instance to install the plugin'
 			)
 		)
-		.action(async (pluginName, directoryName) => {
-			await install(app, pluginName, directoryName);
+		.action(async (pluginName, instanceName) => {
+			await install(app, pluginName, instanceName);
 		});
 };

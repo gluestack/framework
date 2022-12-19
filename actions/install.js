@@ -12,7 +12,7 @@ const { writePlugin } = require('../helpers/meta/plugins');
 const getPlugin = require('../helpers/getPlugin');
 const isGluePackage = require('../helpers/isGluePackage');
 
-async function validateAndGet(pluginName, directoryName) {
+async function validateAndGet(pluginName, instanceName) {
 	let packageName = pluginName;
 	if (!isGluePackage(pluginName)) {
 		error(`"${pluginName}" is not supported`);
@@ -26,9 +26,9 @@ async function validateAndGet(pluginName, directoryName) {
 		//
 	}
 
-	if (directoryName.indexOf('/') !== -1) {
+	if (instanceName.indexOf('/') !== -1) {
 		error(
-			`${directoryName} is not valid, does not support nested directory.`
+			`${instanceName} is not valid, does not support nested instance.`
 		);
 		process.exit(0);
 	}
@@ -45,7 +45,7 @@ async function validateAndGet(pluginName, directoryName) {
 		process.exit(0);
 	}
 
-	const folderName = directoryName;
+	const folderName = instanceName;
 
 	// check if plugin exists
 	await metaExists(
@@ -85,7 +85,7 @@ function checkForPackage(pluginName) {
 	});
 }
 
-module.exports = async (app, pluginName, directoryName) => {
+module.exports = async (app, pluginName, instanceName) => {
 	setVar('pluginName', pluginName);
 
 	const {
@@ -93,7 +93,7 @@ module.exports = async (app, pluginName, directoryName) => {
 		pluginFilePath,
 		folderName,
 		packageName,
-	} = await validateAndGet(pluginName, directoryName);
+	} = await validateAndGet(pluginName, instanceName);
 
 	const folderPath = `./${folderName}`;
 

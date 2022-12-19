@@ -49,7 +49,7 @@ function printPluginInstances(plugins) {
 		console.table(arr);
 		return;
 	}
-	warning('No plugins are installed in your app.');
+	warning('No instances are installed in your app.');
 }
 
 async function printInstalledPluginInstances(app) {

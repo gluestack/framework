@@ -4,11 +4,19 @@ import IContainerController from "@gluestack/framework/types/plugin/interface/IC
 
 export class PluginInstanceContainerController implements IContainerController {
   app: IApp;
+  status: "up" | "down" = "down";
+  portNumber: string;
+  containerId: string;
   callerInstance: IInstance;
 
   constructor(app: IApp, callerInstance: IInstance) {
     this.app = app;
     this.callerInstance = callerInstance;
+    this.setStatus(this.callerInstance.gluePluginStore.get("status"));
+    this.setPortNumber(this.callerInstance.gluePluginStore.get("port_number"));
+    this.setContainerId(
+      this.callerInstance.gluePluginStore.get("container_id"),
+    );
   }
 
   getCallerInstance(): IInstance {
@@ -23,5 +31,63 @@ export class PluginInstanceContainerController implements IContainerController {
     return {
       "name": "MY_NAME"
     };
+  }
+
+  getStatus(): "up" | "down" {
+    return this.status;
+  }
+
+  getPortNumber(): string {
+    return this.portNumber;
+  }
+
+  getContainerId(): string {
+    return this.containerId;
+  }
+
+  setStatus(status: "up" | "down") {
+    this.callerInstance.gluePluginStore.set("status", status || "down");
+    return (this.status = status || "down");
+  }
+
+  setPortNumber(portNumber: string) {
+    this.callerInstance.gluePluginStore.set("port_number", portNumber || null);
+    return (this.portNumber = portNumber || null);
+  }
+
+  setContainerId(containerId: string) {
+    this.callerInstance.gluePluginStore.set(
+      "container_id",
+      containerId || null,
+    );
+    return (this.containerId = containerId || null);
+  }
+
+  getConfig(): any {}
+
+  async up() {
+    if (this.getStatus() !== "up") {
+      await new Promise((resolve, reject) => {
+        // this.setStatus("up");
+        // this.setPortNumber(portNumber);
+        // this.setContainerId(containerId);
+        return resolve(true);
+      });
+    }
+  }
+
+  async down() {
+    if (this.getStatus() !== "down") {
+      await new Promise((resolve, reject) => {
+        // this.setStatus("down");
+        // this.setPortNumber(null);
+        // this.setContainerId(null);
+        return resolve(true);
+      });
+    }
+  }
+
+  async build() {
+    //
   }
 }

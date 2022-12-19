@@ -19,8 +19,8 @@ commander.init = async () => {
 
 // adds all the commands from the directory
 commander.addCommands = async (app) => {
-	commands().forEach((cmd) => cmd(program, app));
-	app.commands.forEach((cmd) => cmd(program, app));
+	const cmds = commands().concat(app.commands);
+	cmds.forEach((cmd) => cmd(program, app));
 };
 
 // parses and closes the command
