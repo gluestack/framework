@@ -20,5 +20,5 @@ async function execute(steps) {
 
 module.exports = async (pluginName, packageName) => {
 	info(`Installing '${pluginName}' from '${packageName}'`);
-	await execute([`npm install ${packageName}`], folderPath);
+	await execute([`npm install ${packageName}`]);
 };
