@@ -2,19 +2,20 @@ const { map } = require('lodash');
 const { warning, error } = require('../print');
 const { readFile } = require('../file');
 
-module.exports = async (pluginPath, pluginName, folderName) => {
+module.exports = async (pluginPath, pluginName, instanceName) => {
 	let data = await readFile(pluginPath);
 
 	if (!data) {
 		error('Meta file is corrupted. Missing configuration.');
 		process.exit(0);
 	}
+	//Todo::check if instance name is unique
 
-	if (data[pluginName]) {
+	for (const pluginName of Object.keys(data)) {
 		map(data[pluginName], (pluginInstance) => {
-			if (pluginInstance.instance === folderName) {
-				warning(
-					`Plugin "${pluginName}" already exist in your project as "${folderName}" instance`
+			if (pluginInstance.instance === instanceName) {
+				error(
+					`"${instanceName}" instance already added from plugin "${pluginName}"`
 				);
 				process.exit(0);
 			}

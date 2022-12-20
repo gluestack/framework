@@ -4,7 +4,7 @@ import IInstance from './IInstance';
 export default interface IContainerController {
 	app: IApp;
 	status: 'up' | 'down';
-	portNumber: string;
+	portNumber: number;
 	containerId: string;
 	callerInstance: IInstance;
 	getCallerInstance(): IInstance;
@@ -12,7 +12,7 @@ export default interface IContainerController {
 	getDockerJson(): any;
 	getStatus(): 'up' | 'down';
 	getContainerId(): string;
-	getPortNumber(): string;
+	getPortNumber(): number;
 	getConfig(): any;
 	up(): any;
 	down(): any;

@@ -5,7 +5,7 @@ import IContainerController from "@gluestack/framework/types/plugin/interface/IC
 export class PluginInstanceContainerController implements IContainerController {
   app: IApp;
   status: "up" | "down" = "down";
-  portNumber: string;
+  portNumber: number;
   containerId: string;
   callerInstance: IInstance;
 
@@ -37,7 +37,7 @@ export class PluginInstanceContainerController implements IContainerController {
     return this.status;
   }
 
-  getPortNumber(): string {
+  getPortNumber(): number {
     return this.portNumber;
   }
 
@@ -50,7 +50,7 @@ export class PluginInstanceContainerController implements IContainerController {
     return (this.status = status || "down");
   }
 
-  setPortNumber(portNumber: string) {
+  setPortNumber(portNumber: number) {
     this.callerInstance.gluePluginStore.set("port_number", portNumber || null);
     return (this.portNumber = portNumber || null);
   }

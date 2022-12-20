@@ -12,18 +12,20 @@ const { writePlugin } = require('../helpers/meta/plugins');
 const getPlugin = require('../helpers/getPlugin');
 const isGluePackage = require('../helpers/isGluePackage');
 
+const prefix = 'glue-plugin-';
+
 async function validateAndGet(pluginName, instanceName) {
 	let packageName = pluginName;
-	if (!isGluePackage(pluginName)) {
-		error(`"${pluginName}" is not supported`);
-		process.exit(0);
-	}
-
 	try {
 		await checkForPackage(pluginName);
-		packageName = `@gluestack/${pluginName}`;
+		packageName = `@gluestack/${prefix}${pluginName}`;
 	} catch (e) {
 		//
+	}
+
+	if (!isGluePackage(packageName)) {
+		error(`"${packageName}" is not supported`);
+		process.exit(0);
 	}
 
 	if (instanceName.indexOf('/') !== -1) {
@@ -48,11 +50,7 @@ async function validateAndGet(pluginName, instanceName) {
 	const folderName = instanceName;
 
 	// check if plugin exists
-	await metaExists(
-		pluginInstancesFilePath,
-		`@gluestack/${pluginName}`,
-		folderName
-	);
+	await metaExists(pluginInstancesFilePath, packageName, folderName);
 
 	return {
 		pluginInstancesFilePath,
@@ -66,7 +64,7 @@ function checkForPackage(pluginName) {
 	return new Promise((resolve, reject) => {
 		https
 			.get(
-				`https://registry.npmjs.org/@gluestack/${pluginName}`,
+				`https://registry.npmjs.org/@gluestack/${prefix}${pluginName}`,
 				(res) => {
 					if (res.statusCode === 200) {
 						let body = '';
@@ -112,7 +110,17 @@ module.exports = async (app, pluginName, instanceName) => {
 
 	const plugin = await getPlugin(app, packagePath, packageName, true);
 
-	await plugin.runPostInstall(folderName, folderPath);
+	try {
+		await plugin.runPostInstall(folderName, folderPath);
+	} catch (e) {
+		error(
+			`${pluginName} installed failed: ${
+				e.message || 'Something went wrong'
+			}`
+		);
+		newline();
+		process.exit(0);
+	}
 
 	// updates meta/plugin-instances.json file
 	await metaPluginInstance(
