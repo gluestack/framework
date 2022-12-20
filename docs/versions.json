@@ -5,19 +5,166 @@
 				"sidebar": [
 					{
 						"type": "heading",
-						"title": "docs for the framwork",
+						"title": "",
 						"pages": [
 							{
-								"id": "getting-started",
-								"title": "Getting Started"
+								"id": "introduction",
+								"title": "Introduction"
 							},
 							{
-								"id": "plugins",
-								"title": "Plugins"
+								"id": "why-gluestack",
+								"title": "Why gluestack?"
 							},
 							{
-								"id": "builiding-an-plugin",
-								"title": "Building an Plugin"
+								"id": "goals-and-non-goals",
+								"title": "Goals and non-goals"
+							},
+							{
+								"id": "faq",
+								"title": "FAQ"
+							},
+							{
+								"id": "installation",
+								"title": "Installation"
+							},
+							{
+								"id": "prerequisites",
+								"title": "Prerequisites"
+							},
+							{
+								"id": "architecture",
+								"title": "Architecture"
+							}
+						]
+					},
+					{
+						"type": "heading",
+						"title": "Usage",
+						"pages": [
+							{
+								"type": "heading",
+								"title": "Your First Project",
+								"isCollapsed": true,
+								"pages": [
+									{
+										"id": "usage/your-first-project/bootstrap-project",
+										"title": "Bootstrap a project"
+									},
+									{
+										"id": "usage/your-first-project/glue-cli",
+										"title": "The glue CLI"
+									},
+									{
+										"id": "usage/your-first-project/install-web-plugin",
+										"title": "Install the Web plugin"
+									},
+									{
+										"id": "usage/your-first-project/adding-database-and-graphql",
+										"title": "Adding database & GraphQL"
+									},
+									{
+										"id": "usage/your-first-project/consuming-graphql",
+										"title": "Consuming GraphQL"
+									},
+									{
+										"id": "usage/your-first-project/authentication",
+										"title": "Authentication"
+									}
+								]
+							},
+							{
+								"type": "heading",
+								"title": "Plugin Reference",
+								"isCollapsed": true,
+								"pages": [
+									{
+										"id": "web/web",
+										"title": "Web"
+									},
+									{
+										"id": "mobile/mobile",
+										"title": "Mobile"
+									},
+									{
+										"id": "storybook/storybook",
+										"title": "Storybook"
+									},
+									{
+										"id": "auth/auth",
+										"title": "Auth"
+									},
+									{
+										"id": "graphql/graphql",
+										"title": "GraphQL"
+									},
+									{
+										"id": "functions/function",
+										"title": "Functions"
+									},
+									{
+										"id": "jobs/jobs",
+										"title": "Jobs"
+									},
+									{
+										"id": "cron/cron",
+										"title": "CRON"
+									},
+									{
+										"id": "language-and-i18n/language-and-i18n",
+										"title": "Language & i18n"
+									},
+									{
+										"id": "environment-variables/environment-variables",
+										"title": "Environment Varaibles"
+									}
+								]
+							},
+							{
+								"id": "gluestack-ui",
+								"title": "gluestack/ui"
+							},
+							{
+								"id": "testing",
+								"title": "Testing"
+							},
+							{
+								"id": "build",
+								"title": "Build"
+							}
+						]
+					},
+					{
+						"type": "heading",
+						"title": "Deployment",
+						"pages": [
+							{
+								"id": "deployment/seal",
+								"title": "Seal"
+							},
+							{
+								"id": "deployment/self-hosting",
+								"title": "Self-hosting"
+							}
+						]
+					},
+					{
+						"type": "heading",
+						"title": "Advance",
+						"pages": [
+							{
+								"type": "heading",
+								"title": "Plugins",
+								"isCollapsed": true,
+								"pages": [
+									{
+										"id": "advance/plugins/building-your-first-plugin",
+										"title": "Building your first plugin"
+									},
+									{
+										"id": "advance/plugins/plugin-dev-environment",
+										"title": "The plugin dev environment"
+									}
+								]
 							}
 						]
 					}
