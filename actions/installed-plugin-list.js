@@ -38,6 +38,9 @@ function printPluginInstances(plugins) {
 					arr.push({
 						plugin: key,
 						instance: pluginInstance.getName(),
+						directory: pluginInstance.getInstallationPath
+							? pluginInstance.getInstallationPath()
+							: '',
 						version: plugin.getVersion(),
 					});
 			  })

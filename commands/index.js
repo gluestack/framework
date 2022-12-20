@@ -1,6 +1,6 @@
 const commands = () => {
 	return [
-		require('./hello-world'),
+		// require('./hello-world'),
 		require('./plugin-list'),
 		require('./plugin-init'),
 		require('./publish'),

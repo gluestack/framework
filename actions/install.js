@@ -93,7 +93,15 @@ module.exports = async (app, pluginName, instanceName) => {
 		packageName,
 	} = await validateAndGet(pluginName, instanceName);
 
-	const folderPath = `./${folderName}`;
+	// download plugin project
+	await download(pluginName, packageName);
+
+	const nodeModulesPackageName = `node_modules/${packageName}`;
+	const packagePath = `${process.cwd()}/${nodeModulesPackageName}`;
+
+	const plugin = await getPlugin(app, packagePath, packageName, true);
+
+	const folderPath = await plugin.getInstallationPath(folderName);
 
 	if (!(await checkFolderIsEmpty(folderPath))) {
 		error(
@@ -101,14 +109,6 @@ module.exports = async (app, pluginName, instanceName) => {
 		);
 		process.exit(0);
 	}
-
-	// download plugin project
-	await download(pluginName, packageName, folderPath, folderName);
-
-	const nodeModulesPackageName = `node_modules/${packageName}`;
-	const packagePath = `${process.cwd()}/${nodeModulesPackageName}`;
-
-	const plugin = await getPlugin(app, packagePath, packageName, true);
 
 	try {
 		await plugin.runPostInstall(folderName, folderPath);
@@ -137,7 +137,7 @@ module.exports = async (app, pluginName, instanceName) => {
 	);
 
 	success(
-		`Sucessfully installed '${pluginName}' in directory '${folderName}'`
+		`Sucessfully installed '${pluginName}' as instance ${folderName} in directory '${folderPath}'`
 	);
 	newline();
 };

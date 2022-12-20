@@ -41,8 +41,8 @@ async function attachPluginInstances(app, path, plugins) {
 	for (const { plugin } of plugins) {
 		const instances = pluginInstances[plugin.getName()];
 		if (instances) {
-			for (const { instance } of instances) {
-				attachPluginInstance(app, plugin, instance);
+			for (const { instance, directory } of instances) {
+				attachPluginInstance(app, plugin, instance, directory);
 			}
 		}
 	}
@@ -59,10 +59,11 @@ async function getBottomToTopPluginInstanceTree(app, path) {
 	return array.reverse();
 }
 
-function attachPluginInstance(app, plugin, instance) {
+function attachPluginInstance(app, plugin, instance, directory) {
 	return plugin.createInstance(
 		instance,
-		injectPluginInstanceStore(app, plugin.getName(), instance)
+		injectPluginInstanceStore(app, plugin.getName(), instance),
+		directory
 	);
 }
 

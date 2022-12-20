@@ -5,7 +5,8 @@ export default interface IManagesInstances {
 	instances: IInstance[];
 	createInstance(
 		key: string,
-		gluePluginStore: IGlueStorePlugin
+		gluePluginStore: IGlueStorePlugin,
+		installationPath: string
 	): IInstance;
 	getInstances(): IInstance[];
 }

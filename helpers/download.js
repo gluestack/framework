@@ -3,7 +3,7 @@ const { info } = require('./print');
 // const { copyFolder } = require('../helpers/file');
 const exec = require('child_process').exec;
 
-async function execute(steps, folderPath) {
+async function execute(steps) {
 	for (const step of steps) {
 		await new Promise((resolve, reject) => {
 			exec(step, async (error, stdout, stderr) => {
@@ -18,22 +18,7 @@ async function execute(steps, folderPath) {
 	}
 }
 
-module.exports = async (
-	pluginName,
-	packageName,
-	folderPath,
-	folderName
-) => {
-	info(
-		`Installing '${pluginName}' from '${packageName}' in directory '${folderName}'`
-	);
+module.exports = async (pluginName, packageName) => {
+	info(`Installing '${pluginName}' from '${packageName}'`);
 	await execute([`npm install ${packageName}`], folderPath);
-
-	/*
-	await plugin.runPostInstall(folderName);
-
-	await execute([
-		`echo "Sucessfully installed '${pluginName}' in directory '${folderName}'"`,
-	]);
-	*/
 };

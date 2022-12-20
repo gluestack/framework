@@ -7,9 +7,11 @@ export default interface IInstance {
 	name: string;
 	callerPlugin: IPlugin;
 	gluePluginStore: IGlueStorePlugin;
+	installationPath: string;
+	isOfTypeInstance: boolean;
 	init(): any;
 	destroy(): any;
 	getName(): string;
 	getCallerPlugin(): IPlugin;
-	isOfTypeInstance: boolean;
+	getInstallationPath(): string;
 }
