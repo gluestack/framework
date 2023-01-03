@@ -12,12 +12,16 @@ const PLUGINS = {
 		description: 'Installs a Storybook App Plugin',
 	},
 	functions: {
-		package: '@gluestack/functions',
+		package: '@gluestack/glue-plugin-functions',
 		description: 'Installs a Function for computing',
 	},
 	graphql: {
-		package: '@gluestack/graphql',
+		package: '@gluestack/glue-plugin-graphql',
 		description: 'Installs a Hasura GraphQL App Plugin',
+	},
+	engine: {
+		package: '@gluestack/glue-plugin-engine',
+		description: 'Installs a Backend GlueStack Engine App Plugin',
 	},
 	auth: {
 		package: '@gluestack/auth',
