@@ -6,6 +6,7 @@ const {
 	hasura,
 	node,
 	dockerStatus,
+	npm,
 } = require('../helpers/dependencies');
 const { info, error } = require('../helpers/print');
 
@@ -13,6 +14,7 @@ const runDoctor = async () => {
 	const results = await Promise.allSettled([
 		node(),
 		yarn(),
+		npm(),
 		hasura(),
 		docker(),
 		dockerCompose(),

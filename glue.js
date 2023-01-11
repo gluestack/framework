@@ -2,6 +2,7 @@
 
 const App = require('./lib/app');
 const commander = require('./helpers/commander');
+const runDoctor = require('./actions/doctor');
 
 const commanderInit = async (app) => {
 	// initialise the commander
@@ -25,6 +26,16 @@ const destroy = async (app) => {
 };
 
 const glue = async (localPlugins = []) => {
+	if (
+		process.argv[2]
+		&& process.argv[2] === '--doctor'
+	) {
+		await runDoctor();
+		
+		// remove the --doctor argument
+		process.argv.splice(2, 1);
+	}
+
 	const app = init();
 
 	await app.initPlugins(localPlugins);
