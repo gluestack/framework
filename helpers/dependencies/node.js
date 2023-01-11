@@ -1,4 +1,4 @@
-const { error } = require('../print')
+const { error } = require('../print');
 const { spawn } = require('child_process');
 
 const node = async () =>
@@ -8,9 +8,9 @@ const node = async () =>
 		_spawn.on('error', () => reject(`"NODE" is installed?`));
 
 		_spawn.stdout.on('data', (data) => {
-			data = data.toString().slice(1, -3);
-			if (+data < 16) {
-				error(`"NODE" version must be greater than or equal 16`);
+			data = data.toString().replace(/[^\d.]/g, '').replace(/\.\d+/g, '');
+			if (data < 18) {
+				error(`"NODE" version must be greater than or equal 18`);
 				return reject();
 			}
 		});
