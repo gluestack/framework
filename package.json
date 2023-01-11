@@ -1,6 +1,6 @@
 {
 	"name": "@gluestack/framework",
-	"version": "0.0.15",
+	"version": "0.0.16",
 	"description": "Framework code of gluestack",
 	"main": "glue.js",
 	"scripts": {},
