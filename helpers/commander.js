@@ -14,6 +14,7 @@ commander.init = async () => {
 	program
 		.name('glue')
 		.version('gluestack Version ' + version)
+		.option('--doctor', 'pre-requisites check for installation')
 		.description('gluestack framework');
 };
 
