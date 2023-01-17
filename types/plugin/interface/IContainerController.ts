@@ -17,4 +17,5 @@ export default interface IContainerController {
 	up(): any;
 	down(): any;
 	build(): any;
+	watch?: () => Promise<string[]>;
 }
