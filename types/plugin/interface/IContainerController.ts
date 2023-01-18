@@ -11,6 +11,7 @@ export default interface IContainerController {
 	getEnv(): any;
 	getDockerJson(): any;
 	getStatus(): 'up' | 'down';
+	setStatus(status: 'up' | 'down'): 'up' | 'down';
 	getContainerId(): string;
 	getPortNumber(): number;
 	getConfig(): any;
