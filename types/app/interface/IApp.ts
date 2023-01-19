@@ -15,6 +15,7 @@ export default interface IApp {
 	): any;
 	getPluginByName(pluginName: string): any;
 	getContainerTypePluginInstances(
-		bottomToTop?: boolean
+		bottomToTop?: boolean,
+		returnWithTree?: boolean
 	): (IPlugin & IHasContainerController)[];
 }
