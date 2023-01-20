@@ -11,6 +11,7 @@ const { success, error, newline } = require('../helpers/print');
 const { writePlugin } = require('../helpers/meta/plugins');
 const getPlugin = require('../helpers/getPlugin');
 const isGluePackage = require('../helpers/isGluePackage');
+const getDependencies = require('../helpers/get-dependencies');
 
 const prefix = 'glue-plugin-';
 
@@ -110,6 +111,8 @@ module.exports = async (app, pluginName, instanceName) => {
 		process.exit(0);
 	}
 
+	await checkForDependencies(app, packageName);
+
 	try {
 		await plugin.runPostInstall(folderName, folderPath);
 	} catch (e) {
@@ -141,3 +144,29 @@ module.exports = async (app, pluginName, instanceName) => {
 	);
 	newline();
 };
+
+async function checkForDependencies(app, packageName) {
+	let missing = [];
+	const dependencies = await getDependencies(app, packageName);
+	for (const plugin of dependencies) {
+		if (plugin.getInstances().length === 0) {
+			missing.push(plugin);
+		}
+	}
+
+	if (missing.length) {
+		error(`${packageName} installed failed: Missing dependencies`);
+		console.log('\x1b[36m');
+		for (const plugin of missing) {
+			let arr = plugin.getName().split('-');
+			console.log(
+				`Install dependency: \`node glue add ${plugin.getName()} ${
+					arr[arr.length - 1]
+				}\``
+			);
+		}
+		console.log('\x1b[37m');
+		newline();
+		process.exit(0);
+	}
+}

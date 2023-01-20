@@ -69,6 +69,7 @@ function attachPluginInstance(app, plugin, instance, directory) {
 
 module.exports = {
 	pluginInstance,
+	attachPluginInstances,
 	getTopToBottomPluginInstanceTree,
 	getBottomToTopPluginInstanceTree,
 	attachPluginInstance,
