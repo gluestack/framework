@@ -19,8 +19,6 @@ const getDependencies = async (app, pluginName) => {
 		const dependencyPath = path.join(
 			process.cwd(),
 			'node_modules',
-			pluginName,
-			'node_modules',
 			dependency
 		);
 		try {

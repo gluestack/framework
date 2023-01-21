@@ -1,8 +1,10 @@
 const PLUGINS = {
+	/*
 	framework: {
 		package: '@gluestack/glue-plugin-framework',
 		description: 'Installs a GlueStack Framework Plugin',
 	},
+	*/
 	web: {
 		package: '@gluestack/glue-plugin-web',
 		description: 'Installs a Next.js App Plugin',
