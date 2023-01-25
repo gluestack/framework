@@ -1,6 +1,11 @@
 import IApp from '../../app/interface/IApp';
 import IInstance from './IInstance';
 
+export interface IRoutes {
+	method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH" | "HEAD" | "OPTIONS" | "CONNECT" | "TRACE";
+	path: string;
+}
+
 export default interface IContainerController {
 	app: IApp;
 	status: 'up' | 'down';
@@ -20,5 +25,5 @@ export default interface IContainerController {
 	build(): any;
 
 	watch?: () => Promise<string[]>;
-	getRoutes?: () => Promise<string[]>;
+	getRoutes?: () => Promise<IRoutes[]>;
 }
