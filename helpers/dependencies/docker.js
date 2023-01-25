@@ -8,8 +8,15 @@ const docker = async () =>
 		_spawn.on('error', () => reject(`"DOCKER" is installed?`));
 
 		_spawn.stdout.on('data', (data) => {
-			data = data.toString().replace(/[^\d.]/g, '').replace(/\.\d+/g, '');
-			if (+data < 20) {
+			const version = data.split(".");
+			version.splice(2);
+
+			if (+version[0] < 20) {
+				error(`"Docker" version must be greater than or equal 20`);
+				return reject();
+			}
+
+			if (+version[0] <= 20 && +version[1] < 10) {
 				error(`"Docker" version must be greater than or equal 20`);
 				return reject();
 			}
