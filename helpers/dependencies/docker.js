@@ -8,7 +8,7 @@ const docker = async () =>
 		_spawn.on('error', () => reject(`"DOCKER" is installed?`));
 
 		_spawn.stdout.on('data', (data) => {
-			const version = data.split(".");
+			const version = data.toString().split(".");
 			version.splice(2);
 
 			if (+version[0] < 20) {
