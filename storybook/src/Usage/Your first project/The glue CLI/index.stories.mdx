@@ -1,0 +1,73 @@
+import { Canvas, Meta, Story } from "@storybook/addon-docs";
+
+<Meta title="Usage/Your first project/The glue CLI" />
+
+The framework provides you with a local CLI that helps them manage plugins. After you have bootstrapped your project from the previous page run the command `node glue --help` to list the available commands provided by the cli.
+
+```jsx
+gluestack framework
+
+Options:
+  -V, --version                              output the version number
+  -h, --help                                 display help for command
+
+Commands:
+  plugin-list                                Prints the list of available plugins
+  plugin-init                                Initializes the gluestack app as a plugin
+  publish                                    Publishes the gluestack app as a plugin
+  plugin-version                             Prints the current version of the plugin
+  instance-list                              Prints the list of installed plugin instances
+  add|install <plugin-name> <instance-name>  installs a gluestack plugin, use help for more info on subcommands
+  develop:list                               Lists all the container instances
+  develop:up [instance-name]                 Starts provided container instances or all the containers if no instance is
+                                             provided
+  develop:down [instance-name]               Stops provided container instances or all the containers if no instance is
+                                             provided
+  build [instance-name]                      Builds provided container instances or all the containers if no instance is
+                                             provided
+  route:list                                 Prints a table of entries of the registered routes
+  route:generate                             Generates nginx config from registered routes
+  help [command]                             display help for command
+```
+
+The `glue` file is just a JS file using which you can interact and perform all actions provided by the framework using node. Here are the details of the commands available.
+
+- **plugin-list**
+  To list all the plugins provided by the framework you can run the command `node glue plugin-list`. This would list all the plugins that are provided by the framework.
+
+```jsx
+│  (index)  │        package         │              description               │
+├───────────┼────────────────────────┼────────────────────────────────────────┤
+│    web    │    '@gluestack/web'    │    'Installs a Next.js App Plugin'     │
+│  mobile   │  '@gluestack/mobile'   │  'Installs a React Native App Plugin'  │
+│ storybook │ '@gluestack/storybook' │   'Installs a Storybook App Plugin'    │
+│ functions │ '@gluestack/functions' │  'Installs a Function for computing'   │
+│  graphql  │  '@gluestack/graphql'  │ 'Installs a Hasura GraphQL App Plugin' │
+│   auth    │   '@gluestack/auth'    │      'Installs auth in your App'       │
+│  storage  │  '@gluestack/storage'  │     'Installs storage in your App'     │
+│   cron    │   '@gluestack/cron'    │      'Installs Cron in your App'       │
+│   jobs    │   '@gluestack/jobs'    │      'Installs Jobs in your App'       │
+```
+
+- **add/install**
+
+  To add a plugin from existing plugin list you run this command `node glue add <plugin-name> <plugin-name>`. Example:
+
+  ```jsx
+  node glue add web mywebapp
+  ```
+
+  The above command will install the web plugin in the folder mywebapp.
+
+- **plugin-init**
+  To create your own plugin
+- **publish**
+- **plugin-version**
+- **instance-list**
+- **develop:list**
+- **develop:up**
+- **develop:down**
+- **build**
+- **route:list**
+- **route:generate**
+- **help**

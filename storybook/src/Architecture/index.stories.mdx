@@ -1,0 +1,63 @@
+import { Canvas, Meta, Story } from "@storybook/addon-docs";
+
+<Meta title="Architecture" />
+
+# Architecture
+
+gluestack has two parts — A core and a set of core plugins on top of that.
+
+# Part 1: The core
+
+The core provides the foundation on which developers can build gluestack apps. The foundation includes an initial folder structure and a local CLI that helps them manage plugins.
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/2227e87c-74b2-490a-b25d-d3b21b680d7d/Untitled.png)
+
+## The core facilitates:
+
+- **Project init:** with `npx create-gluestack-app@latest`
+- **A** p**latform for full-stack development:**
+  - It gives a folder structure that’s editable by the developers
+  - A local CLI per project to manage plugins.
+- **A development runtime:**
+  - **Webserver with a dynamic routing layer**
+    - All the containers & processes are stitched together into a routing layer using Nginx
+  - **Container & process manager**
+    - Run and manage services as Containers (using Docker) or as System processes (using Nodemon) as requested by the plugins
+  - **Env & config manager**
+    - Facilitate the management and sharing of environment variables across containers and processes
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/f839bbd6-ac0f-4885-a168-8203aebf02bb/Untitled.png)
+
+- **A platform for plugin developers:**
+  - The plugin developers can use the same development environment to init, develop and publish new plugins.
+- **A runtime for plugins on CLI:**
+  - Plugins can use the API provided by the core. The APIs let you
+    - Add, run, and manage stateful services like databases (Postgres, Redis)
+    - Add and manage stateless services like pgadmin, Hasura engine, and console
+    - Inject templates in the gluestack project, such as the bootstrap of Next.js, React Native, and Storybook, that quickly lets the user start with the development.
+    - Communicate with other plugins. Eg: The GraphQL plugin can notify other plugins when new entities are added, which the Next.js web plugin can consume to create Apollo hooks.
+      ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/9bdc3ed4-9617-4cf1-85e4-7c91ab29c6bf/Untitled.png)
+
+**NOTE:**
+
+- We use NPM as the package manager, with the option to build plugins using JavaScript and TypeScript.
+- Plugins can inject templates that don’t use the JavaScript ecosystem.
+  - For eg: A plugin can inject a folder in the user’s folder to write Smart Contracts that use Solidity or Flutter that uses Dart.
+
+# Part 2: Core Plugins (choose what you need)
+
+![Frame 6.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/62fce5a1-065a-4a15-9fb5-7342e94c0645/Frame_6.png)
+
+We have also built a set of core plugins which are listed below. You can refer to the plugin reference section for each one of them.
+
+- **web** (React with Next.js)
+- **mobile** (React Native)
+- **storybook** (Universal components)
+- **auth**
+- **graphql** (Hasura)
+- **functions** (Dapr)
+- **storage**
+- **jobs**
+- **cron**
+
+We have an optional plugin that makes deploying any gluestack app to the Seal platform easy. Seal is a hosting service optimized and built for gluestack apps by the creators of gluestack.

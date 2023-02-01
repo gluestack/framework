@@ -1,0 +1,51 @@
+import { Canvas, Meta, Story } from "@storybook/addon-docs";
+
+<Meta title="Philosophy" />
+
+# **Philosophy**
+
+This project is guided by a set of principles that inform our decision-making and shape our approach to building.
+
+### **Innovate Carefully**
+
+We embrace new and innovative technologies, but we also recognize that they can bring risks and challenges. We therefore approach their use with care, carefully considering their potential benefits and drawbacks before incorporating them into our projects. For example, we might be hesitant to use untested database technologies. Still, we are willing to experiment with GraphQL and Cloud functions because they are relatively easy to change if needed.
+
+### **No compromise on performance**
+
+Performance is a top priority for us. We understand that even a slight degradation in performance can have a significant impact on the user experience. We, therefore, strive to optimize our systems and processes to deliver the best possible performance.
+
+### **Developer Experience**
+
+We believe that the developer experience is just as important as the user experience. We aim to create a smooth and enjoyable workflow for developers with tools and processes that are intuitive and efficient.
+
+### **Architecture first, language independent**
+
+Our focus is on building solid and scalable architectures, rather than relying on specific programming languages. This allows us to choose the right tools and technologies for the job, rather than being constrained by a particular language or ecosystem.
+
+We have two parts to the gluestack framework: the core and the opinions.
+
+## **Part 1: The core**
+
+The core is guided by the following principles:
+
+- Architecture first, language independent
+- Bring what you want
+- Loosely coupled
+
+The core provides the basic structure for initializing a gluestack project and an environment for using and building plugins. Our first decision was to use NPM as the package manager for initializing projects and plugins. Our second decision was to use Docker when moving out of the Node and JS ecosystem to provide the development environment and boot-up dependent services.
+
+Note: This does not mean that the core requires the use of JavaScript or TypeScript to build a gluestack app. That is the role of Part 2.
+
+## **Part 2: The opinions (that comes with the core plugins)**
+
+Our opinions are based on our experience running an app development agency and building hundreds of web and mobile apps. Our goal is not to include everything under the sun, but rather to address specific issues within the core technologies.
+
+For example, we will not add state libraries like zustand or redux, but we will include something like NextAuth.js and integrate Hasura and GraphQL for you.
+
+Our opinions also aim to bring standardization to the development process and utilize proven technologies.
+
+These opinions are guided by the following principles:
+
+- Solve for most, but not all
+- Adopt the best
+- Come with no lock-in

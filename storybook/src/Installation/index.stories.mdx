@@ -1,0 +1,62 @@
+import { Canvas, Meta, Story } from "@storybook/addon-docs";
+
+<Meta title="Installation" />
+
+# Installation
+
+You need Node 16.x and Docker’s latest version (to run plugins like pgadmin & Hasura).
+
+## **Step 1: Create** a gluestack app.
+
+```bash
+npx create-gluestack-app@latest my-gluestack-app
+```
+
+## **Step 2: The folder structure**
+
+You get a basic gluestack app with the following folder structure. This is a Node project. (This isn’t a monorepo yet).
+
+```bash
+/meta
+glue
+package.json
+README.md
+```
+
+### The meta folder
+
+This folder keeps the config that’s needed by the framework. Plugins use this folder to store their persistent information too.
+
+### The glue command
+
+This is a Node.js file, a command that points to the CLI of the locally installed framework. We can use this by running `node glue`. Try it out to list the commands that are registered.
+
+### The `package.json` file
+
+Since the create-project command scaffolds a Node project, all the dependencies and its related information are stored in `package.json` file.
+
+## **Step 3:** Add your first plugin
+
+You can pull the basic web template by running the following command.
+
+```bash
+node glue add web
+```
+
+The current version of the web plugin uses Next.js and the source code can be found at `@gluestack/glue-plugin-web` on npm. This interactively asks for the name of the web project. You may give it a name like `dashboard` or `landing`.
+
+> **Note:** You can create multiple web projects in the same gluestack app. We call them instances of web plugin.
+
+## Step 4: Run the local dev environment
+
+```bash
+npm run dev
+```
+
+You can then run any of the following commands as usual.
+
+```bash
+npm start
+npm test
+npm build
+```

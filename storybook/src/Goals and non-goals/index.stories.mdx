@@ -1,0 +1,33 @@
+import { Canvas, Meta, Story } from "@storybook/addon-docs";
+
+<Meta title="Goals and non-goals" />
+
+# Goals and non-goals
+
+### Goals of the core framework):
+
+- Initialize a project with a CLI
+- Provide a local CLI inside every project
+- Don’t ship anything functional with the initial bootstrap
+- Enable full-stack developers to
+  - Install plugins
+  - Run the local dev environment
+- Enable plugin developers to
+  - Initialize, develop & publish plugins
+  - Provide them with a persistent store where they can store meta information
+- While the plugins are written in TypeScript / JavaScript, the templates of plugins aren’t limited to TypeScript / JavaScript. For, eg, We have a plugin for Flutter.
+
+### Non-goals of the core framework:
+
+- The core has no opinion about what the plugin developers build, what language they may bring to the project and what they add to the user’s project.
+
+### Goals of the core plugins
+
+We have built a set of plugins that helps you build full-stack apps.
+
+- Every plugin brings in its own set of opinions.
+- The core plugins make it easy to build a wide variety of web and mobile apps, from static websites to productivity apps, from e-commerce to social media apps.
+
+### Non-goals of the core plugins
+
+- The core plugins don’t have any recommendations on building games or non-conventional apps. Although, you can build them on top of this framework.
