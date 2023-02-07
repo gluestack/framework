@@ -3,7 +3,7 @@ const { spawn } = require('child_process');
 
 const npm = async () =>
 	new Promise((resolve, reject) => {
-		const _spawn = spawn('npm', ['-v']);
+		const _spawn = spawn('npm', ['-v'], { shell: true });
 
 		_spawn.on('error', () => reject(`"NPM" is installed?`));
 

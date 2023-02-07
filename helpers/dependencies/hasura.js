@@ -3,7 +3,7 @@ const { spawn } = require('child_process');
 
 const hasura = async () =>
 	new Promise((resolve, reject) => {
-		const _spawn = spawn('hasura', ['version']);
+		const _spawn = spawn('hasura', ['version'], { shell: true });
 
 		_spawn.on('error', () => reject(`"HASURA CLI" is installed?`));
 

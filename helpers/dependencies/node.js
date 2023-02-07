@@ -3,7 +3,7 @@ const { spawn } = require('child_process');
 
 const node = async () =>
 	new Promise((resolve, reject) => {
-		const _spawn = spawn('node', ['-v']);
+		const _spawn = spawn('node', ['-v'], { shell: true });
 
 		_spawn.on('error', () => reject(`"NODE" is installed?`));
 
