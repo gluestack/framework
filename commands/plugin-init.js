@@ -6,7 +6,7 @@ const pluginInit = require('../actions/plugin-init');
 
 module.exports = async (program, app) => {
 	const command = program
-		.command('plugin-init')
+		.command('plugin:init')
 		.description('Initializes the gluestack app as a plugin');
 
 	command
