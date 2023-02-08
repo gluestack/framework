@@ -1,11 +1,11 @@
 const commands = () => {
 	return [
+		require('./install'),
+		require('./publish'),
+		require('./instance-list'),
 		require('./plugin-list'),
 		require('./plugin-init'),
-		require('./publish'),
 		require('./plugin-version'),
-		require('./instance-list'),
-		require('./install'),
 	];
 };
 
