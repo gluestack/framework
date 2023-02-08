@@ -1,5 +1,4 @@
 const { Command } = require('commander');
-const { getVar } = require('./variables');
 const { version } = require('../package.json');
 const commands = require('../commands');
 
