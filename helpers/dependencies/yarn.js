@@ -2,7 +2,7 @@ const { spawn } = require('child_process');
 
 const yarn = async () =>
 	new Promise((resolve, reject) => {
-		const _spawn = spawn('yarn', ['-v']);
+		const _spawn = spawn('yarn', ['-v'], { shell: true });
 
 		_spawn.on('error', () => reject(`"YARN" is installed?`));
 		_spawn.on('exit', () => resolve(`"YARN" is installed?`));
