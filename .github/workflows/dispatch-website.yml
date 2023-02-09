@@ -3,7 +3,7 @@ name: Trigger Deploy
 on:
   push:
     branches:
-      - master
+      - 'feat/storybook'
 
 jobs:
   build:
@@ -18,3 +18,7 @@ jobs:
           repo: website
           owner: gluestack
           event_type: dispatch_website_docs
+          message: |
+            {
+              "repo": "framework" 
+            }
