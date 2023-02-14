@@ -1,4 +1,6 @@
+const os = require('os');
 const { exec } = require('child_process');
+
 const {
 	fileExists,
 	readFile,
@@ -6,11 +8,12 @@ const {
 	copyFile,
 	createFolder,
 } = require('../helpers/file');
-const { error, warning, success, info } = require('../helpers/print');
-const mainEntryPoint = 'dist/src/index.js';
-const os = require('os');
-const runDoctorPlugin = require('./doctorPlugin');
+
 const build = require('../helpers/plugin/build');
+const runDoctorPlugin = require('./doctorPlugin');
+const { error, warning, success, info } = require('../helpers/print');
+
+const mainEntryPoint = 'dist/src/index.js';
 
 const pluginStubFiles = {
 	instance: [
@@ -156,9 +159,9 @@ module.exports = async (app, type) => {
 	const {
 	   GlueStackPlugin,
 	} = require("./");
-	
+
 	require("@gluestack/framework")([GlueStackPlugin]);
-	
+
 	`;
 
 	success(

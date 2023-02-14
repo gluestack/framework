@@ -1,10 +1,4 @@
 const PLUGINS = {
-	/*
-	framework: {
-		package: '@gluestack/glue-plugin-framework',
-		description: 'Installs a GlueStack Framework Plugin',
-	},
-	*/
 	web: {
 		package: '@gluestack/glue-plugin-web',
 		description: 'Installs a Next.js App Plugin',
@@ -12,10 +6,6 @@ const PLUGINS = {
 	storybook: {
 		package: '@gluestack/glue-plugin-storybook',
 		description: 'Installs a Storybook App Plugin',
-	},
-	mobile: {
-		package: '@gluestack/mobile',
-		description: 'Installs a React Native App Plugin',
 	},
 	engine: {
 		package: '@gluestack/glue-plugin-engine',
@@ -33,13 +23,13 @@ const PLUGINS = {
 		package: '@gluestack/glue-plugin-graphql',
 		description: 'Installs a Hasura GraphQL App Plugin',
 	},
-	functions: {
-		package: '@gluestack/glue-plugin-functions',
-		description: 'Installs a Function for computing',
+	'service-node': {
+		package: '@gluestack/glue-plugin-service-node',
+		description: 'Installs a Node micro-service',
 	},
-	'functions.action': {
-		package: '@gluestack/glue-plugin-functions.action',
-		description: 'Installs Hasura GraphQL Action Management on top of Functions Plugin',
+	'service-nodemailer': {
+		package: '@gluestack/glue-plugin-service-nodemailer',
+		description: 'Installs a Nodemailer micro-service',
 	},
 	'backend-engine': {
 		package: '@gluestack/glue-plugin-backend-engine',
@@ -56,6 +46,14 @@ const PLUGINS = {
 	storage: {
 		package: '@gluestack/glue-plugin-storage',
 		description: 'Installs storage in your App',
+	},
+	sdk: {
+		package: '@gluestack/glue-plugin-sdk',
+		description: 'Installs a GlueStack SDK Plugin',
+	},
+	deploy: {
+		package: '@gluestack/glue-plugin-deploy',
+		description: 'Installs a GlueStack Deploy Plugin',
 	}
 };
 
