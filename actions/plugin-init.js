@@ -82,7 +82,7 @@ async function writeToPackageJson(filepath, packageJson) {
 	json.scripts = {
 		...json.scripts,
 		'plugin-dev': 'tsc --watch',
-		'plugin-build': 'tsc',
+		'plugin-build': 'tsc --declaration',
 	};
 	await writeFile(filepath, JSON.stringify(json, null, 2) + os.EOL);
 	return json.name;
