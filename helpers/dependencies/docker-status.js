@@ -2,7 +2,7 @@ const { spawn } = require('child_process');
 
 const dockerStatus = async () =>
 	new Promise((resolve, reject) => {
-		const _spawn = spawn('docker', ['info', '-f', `'{{ json .}}'`], { shell: true });
+		const _spawn = spawn('docker', ['info', '-f', `'{{ json .}}'`]);
 		let data = '';
 
 		_spawn.stdout.on('data', async (response) => (data += response));

@@ -2,7 +2,7 @@ const { spawn } = require('child_process');
 
 const dockerCompose = async () =>
 	new Promise((resolve, reject) => {
-		const _spawn = spawn('docker', ['compose', '-v'], { shell: true });
+		const _spawn = spawn('docker', ['compose', '-v']);
 
 		_spawn.on('error', () =>
 			reject(`"DOCKER COMPOSE" is installed?`)
