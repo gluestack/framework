@@ -3,7 +3,7 @@ const { spawn } = require('child_process');
 
 const docker = async () =>
 	new Promise((resolve, reject) => {
-		const _spawn = spawn('docker', ['version', '--format', '{{json .Client.Version}}'], { shell: true });
+		const _spawn = spawn('docker', ['version', '--format', '{{json .Client.Version}}']);
 
 		_spawn.on('error', () => reject(`"DOCKER" is installed?`));
 
