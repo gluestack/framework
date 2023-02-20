@@ -14,8 +14,10 @@ const runDoctor = async () => {
 	const results = await Promise.allSettled([
 		node(),
 		npm(),
+		yarn(),
 		hasura(),
 		docker(),
+		dockerCompose(),
 		dockerStatus(),
 	]);
 
