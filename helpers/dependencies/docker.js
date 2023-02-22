@@ -1,14 +1,31 @@
-const { error } = require('../print')
+const { error } = require('../print');
 const { spawn } = require('child_process');
 
 const docker = async () =>
 	new Promise((resolve, reject) => {
-		const _spawn = spawn('docker', ['version', '--format', '{{json .Client.Version}}']);
+		const _spawn = spawn(
+			'docker',
+			['--version'],
+			process.platform === 'win32'
+				? { shell: true }
+				: { shell: false }
+		);
 
-		_spawn.on('error', () => reject(`"DOCKER" is installed?`));
+		let dockerVersion = '';
+
+		_spawn.on('error', () => { return reject(`"DOCKER" is installed?`) });
 
 		_spawn.stdout.on('data', (data) => {
-			const version = data.toString().split(".");
+			dockerVersion += data.toString();
+		});
+
+		_spawn.on('exit', (result) => {
+			if (result) {
+				return reject(`"DOCKER" is installed?`);
+			}
+			const versionMatch = dockerVersion.match(/(\d+)\.\d+/);
+			const data = versionMatch?.[0];
+			const version = data.toString().split('.');
 			version.splice(2);
 
 			if (+version[0] < 20) {
@@ -20,9 +37,9 @@ const docker = async () =>
 				error(`"Docker" version must be greater than or equal 20`);
 				return reject();
 			}
-		});
 
-		_spawn.on('exit', () => resolve(`"DOCKER" is installed?`));
+			return resolve(`"DOCKER" is installed?`);
+		});
 	});
 
 module.exports = { docker };
