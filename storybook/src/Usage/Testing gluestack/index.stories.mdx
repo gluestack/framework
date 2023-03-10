@@ -3,11 +3,13 @@ title: Testing gluestack | framework
 description: Testing gluestack | framework.
 ---
 
-import { Canvas, Meta, Story } from "@storybook/addon-docs";
+import { Canvas, Meta, Story } from '@storybook/addon-docs';
 
 <Meta title="Usage/Testing gluestack" />
 
-![animation.gif](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/5a76e7f3-1082-4379-872d-719114560fb8/animation.gif)
+# Testing gluestack
+
+<img src="/assets/animation.gif" />
 
 <aside>
 💡 **Why Test?**
@@ -52,10 +54,10 @@ Take for example this `increment` function:
 ```jsx
 // helpers.js
 export function increment(current, max = 10) {
-  if (current < max) {
-    return current + 1;
-  }
-  return current;
+	if (current < max) {
+		return current + 1;
+	}
+	return current;
 }
 ```
 
@@ -65,20 +67,20 @@ If any of these assertions fail, it's clear that the issue is contained within t
 
 ```jsx
 // helpers.spec.js
-import { increment } from "./helpers";
+import { increment } from './helpers';
 
-describe("increment", () => {
-  test("increments the current number by 1", () => {
-    expect(increment(0, 10)).toBe(1);
-  });
+describe('increment', () => {
+	test('increments the current number by 1', () => {
+		expect(increment(0, 10)).toBe(1);
+	});
 
-  test("does not increment the current number over the max", () => {
-    expect(increment(10, 10)).toBe(10);
-  });
+	test('does not increment the current number over the max', () => {
+		expect(increment(10, 10)).toBe(10);
+	});
 
-  test("has a default max of 10", () => {
-    expect(increment(10)).toBe(10);
-  });
+	test('has a default max of 10', () => {
+		expect(increment(10)).toBe(10);
+	});
 });
 ```
 
@@ -130,57 +132,57 @@ Component tests should focus on the component's public interfaces rather than in
 
 ```jsx
 const { getByText } = render(Stepper, {
-  props: {
-    max: 1,
-  },
+	props: {
+		max: 1,
+	},
 });
 
-getByText("0"); // Implicit assertion that "0" is within the component
+getByText('0'); // Implicit assertion that "0" is within the component
 
-const button = getByText("increment");
+const button = getByText('increment');
 
 // Dispatch a click event to our increment button.
 await fireEvent.click(button);
 
-getByText("1");
+getByText('1');
 
 await fireEvent.click(button);
 ```
 
 ```jsx
-const valueSelector = "[data-testid=stepper-value]";
-const buttonSelector = "[data-testid=increment]";
+const valueSelector = '[data-testid=stepper-value]';
+const buttonSelector = '[data-testid=increment]';
 
 const wrapper = mount(Stepper, {
-  props: {
-    max: 1,
-  },
+	props: {
+		max: 1,
+	},
 });
 
-expect(wrapper.find(valueSelector).text()).toContain("0");
+expect(wrapper.find(valueSelector).text()).toContain('0');
 
-await wrapper.find(buttonSelector).trigger("click");
+await wrapper.find(buttonSelector).trigger('click');
 
-expect(wrapper.find(valueSelector).text()).toContain("1");
+expect(wrapper.find(valueSelector).text()).toContain('1');
 ```
 
 ```jsx
-const valueSelector = "[data-testid=stepper-value]";
-const buttonSelector = "[data-testid=increment]";
+const valueSelector = '[data-testid=stepper-value]';
+const buttonSelector = '[data-testid=increment]';
 
 mount(Stepper, {
-  props: {
-    max: 1,
-  },
+	props: {
+		max: 1,
+	},
 });
 
 cy.get(valueSelector)
-  .should("be.visible")
-  .and("contain.text", "0")
-  .get(buttonSelector)
-  .click()
-  .get(valueSelector)
-  .should("contain.text", "1");
+	.should('be.visible')
+	.and('contain.text', '0')
+	.get(buttonSelector)
+	.click()
+	.get(valueSelector)
+	.should('contain.text', '1');
 ```
 
 **DON'T**
@@ -238,25 +240,25 @@ Assuming the following two Next.js pages:
 
 ```jsx
 // pages/index.js
-import Link from "next/link";
+import Link from 'next/link';
 
 export default function Home() {
-  return (
-    <nav>
-      <Link href="/about">About</Link>
-    </nav>
-  );
+	return (
+		<nav>
+			<Link href="/about">About</Link>
+		</nav>
+	);
 }
 ```
 
 ```jsx
 // pages/about.js
 export default function About() {
-  return (
-    <div>
-      <h1>About Page</h1>
-    </div>
-  );
+	return (
+		<div>
+			<h1>About Page</h1>
+		</div>
+	);
 }
 ```
 
@@ -265,20 +267,20 @@ Add a test to check your navigation is working correctly:
 ```jsx
 // cypress/integration/app.spec.js
 
-describe("Navigation", () => {
-  it("should navigate to the about page", () => {
-    // Start from the index page
-    cy.visit("http://localhost:3000/");
+describe('Navigation', () => {
+	it('should navigate to the about page', () => {
+		// Start from the index page
+		cy.visit('http://localhost:3000/');
 
-    // Find a link with an href attribute containing "about" and click it
-    cy.get('a[href*="about"]').click();
+		// Find a link with an href attribute containing "about" and click it
+		cy.get('a[href*="about"]').click();
 
-    // The new url should include "/about"
-    cy.url().should("include", "/about");
+		// The new url should include "/about"
+		cy.url().should('include', '/about');
 
-    // The new page should contain an h1 with "About page"
-    cy.get("h1").contains("About Page");
-  });
+		// The new page should contain an h1 with "About page"
+		cy.get('h1').contains('About Page');
+	});
 });
 ```
 
@@ -387,25 +389,25 @@ Assuming the following two Next.js pages:
 
 ```jsx
 // pages/index.js
-import Link from "next/link";
+import Link from 'next/link';
 
 export default function Home() {
-  return (
-    <nav>
-      <Link href="/about">About</Link>
-    </nav>
-  );
+	return (
+		<nav>
+			<Link href="/about">About</Link>
+		</nav>
+	);
 }
 ```
 
 ```jsx
 // pages/about.js
 export default function About() {
-  return (
-    <div>
-      <h1>About Page</h1>
-    </div>
-  );
+	return (
+		<div>
+			<h1>About Page</h1>
+		</div>
+	);
 }
 ```
 
@@ -414,17 +416,17 @@ Add a test to verify that your navigation is working correctly:
 ```jsx
 // e2e/example.spec.ts
 
-import { test, expect } from "@playwright/test";
+import { test, expect } from '@playwright/test';
 
-test("should navigate to the about page", async ({ page }) => {
-  // Start from the index page (the baseURL is set via the webServer in the playwright.config.ts)
-  await page.goto("http://localhost:3000/");
-  // Find an element with the text 'About Page' and click on it
-  await page.click("text=About");
-  // The new URL should be "/about" (baseURL is used there)
-  await expect(page).toHaveURL("http://localhost:3000/about");
-  // The new page should contain an h1 with "About Page"
-  await expect(page.locator("h1")).toContainText("About Page");
+test('should navigate to the about page', async ({ page }) => {
+	// Start from the index page (the baseURL is set via the webServer in the playwright.config.ts)
+	await page.goto('http://localhost:3000/');
+	// Find an element with the text 'About Page' and click on it
+	await page.click('text=About');
+	// The new URL should be "/about" (baseURL is used there)
+	await expect(page).toHaveURL('http://localhost:3000/about');
+	// The new page should contain an h1 with "About Page"
+	await expect(page.locator('h1')).toContainText('About Page');
 });
 ```
 
@@ -509,12 +511,12 @@ To test your components in Storybook, you can follow these steps:
 **Here's an example of a test case written in Jest that tests a component in Storybook:**
 
 ```jsx
-import { render } from "@testing-library/react";
-import MyComponent from "./MyComponent";
+import { render } from '@testing-library/react';
+import MyComponent from './MyComponent';
 
-test("MyComponent should render correctly", () => {
-  const { container } = render(<MyComponent />);
-  expect(container).toMatchSnapshot();
+test('MyComponent should render correctly', () => {
+	const { container } = render(<MyComponent />);
+	expect(container).toMatchSnapshot();
 });
 ```
 
@@ -538,31 +540,31 @@ Dapr is a distributed application runtime that simplifies the development of mic
 **Here's an example of a test case written in Jest that tests a Dapr-based application:**
 
 ```jsx
-import { DaprClient } from "dapr";
+import { DaprClient } from 'dapr';
 
-test("Dapr should be able to save and retrieve a state", async () => {
-  // Create a Dapr client
-  const client = new DaprClient({
-    logger: console,
-  });
+test('Dapr should be able to save and retrieve a state', async () => {
+	// Create a Dapr client
+	const client = new DaprClient({
+		logger: console,
+	});
 
-  // Save a state value
-  await client.saveState({
-    storeName: "statestore",
-    key: "key1",
-    value: {
-      data: "value1",
-    },
-  });
+	// Save a state value
+	await client.saveState({
+		storeName: 'statestore',
+		key: 'key1',
+		value: {
+			data: 'value1',
+		},
+	});
 
-  // Retrieve the saved state value
-  const result = await client.getState({
-    storeName: "statestore",
-    key: "key1",
-  });
+	// Retrieve the saved state value
+	const result = await client.getState({
+		storeName: 'statestore',
+		key: 'key1',
+	});
 
-  // Verify that the retrieved value is correct
-  expect(result.data).toEqual({ data: "value1" });
+	// Verify that the retrieved value is correct
+	expect(result.data).toEqual({ data: 'value1' });
 });
 ```
 
@@ -586,14 +588,16 @@ Hasura is an open-source engine that provides real-time GraphQL APIs on top of a
 Here's an example of a test case written in Jest that tests a Hasura-based application:
 
 ```jsx
-import { GraphQLClient } from "graphql-request";
+import { GraphQLClient } from 'graphql-request';
 
-test("Hasura should be able to create and retrieve a user", async () => {
-  // Create a GraphQL client
-  const client = new GraphQLClient("http://localhost:8080/v1/graphql");
+test('Hasura should be able to create and retrieve a user', async () => {
+	// Create a GraphQL client
+	const client = new GraphQLClient(
+		'http://localhost:8080/v1/graphql'
+	);
 
-  // Execute a mutation to create a user
-  const createUserMutation = `
+	// Execute a mutation to create a user
+	const createUserMutation = `
     mutation CreateUser($name: String!) {
       insert_users(objects: {name: $name}) {
         returning {
@@ -603,14 +607,17 @@ test("Hasura should be able to create and retrieve a user", async () => {
       }
     }
   `;
-  const variables = {
-    name: "Alice",
-  };
-  const createUserResult = await client.request(createUserMutation, variables);
-  const userId = createUserResult.insert_users.returning[0].id;
+	const variables = {
+		name: 'Alice',
+	};
+	const createUserResult = await client.request(
+		createUserMutation,
+		variables
+	);
+	const userId = createUserResult.insert_users.returning[0].id;
 
-  // Execute a query to retrieve the created user
-  const getUserQuery = `
+	// Execute a query to retrieve the created user
+	const getUserQuery = `
     query GetUser($id: uuid!) {
       users(where: {id: {_eq: $id}}) {
         id
@@ -618,11 +625,13 @@ test("Hasura should be able to create and retrieve a user", async () => {
       }
     }
   `;
-  const getUserResult = await client.request(getUserQuery, { id: userId });
-  const user = getUserResult.users[0];
+	const getUserResult = await client.request(getUserQuery, {
+		id: userId,
+	});
+	const user = getUserResult.users[0];
 
-  // Verify that the retrieved user is correct
-  expect(user).toEqual({ id: userId, name: "Alice" });
+	// Verify that the retrieved user is correct
+	expect(user).toEqual({ id: userId, name: 'Alice' });
 });
 ```
 
@@ -637,26 +646,26 @@ Cron is a Unix utility that allows you to schedule tasks to be executed automati
 Here's an example of a test case written in Jest that tests a cron-based application:
 
 ```jsx
-import { CronJob } from "cron";
+import { CronJob } from 'cron';
 
-test("Cron job should execute every minute", () => {
-  // Create a mock function to represent the cron task
-  const task = jest.fn();
+test('Cron job should execute every minute', () => {
+	// Create a mock function to represent the cron task
+	const task = jest.fn();
 
-  // Schedule the cron job to run every minute
-  const job = new CronJob("* * * * *", task);
+	// Schedule the cron job to run every minute
+	const job = new CronJob('* * * * *', task);
 
-  // Start the cron job
-  job.start();
+	// Start the cron job
+	job.start();
 
-  // Wait for the cron job to execute
-  setTimeout(() => {
-    // Verify that the cron task was called
-    expect(task).toHaveBeenCalled();
+	// Wait for the cron job to execute
+	setTimeout(() => {
+		// Verify that the cron task was called
+		expect(task).toHaveBeenCalled();
 
-    // Stop the cron job
-    job.stop();
-  }, 60000);
+		// Stop the cron job
+		job.stop();
+	}, 60000);
 });
 ```
 
