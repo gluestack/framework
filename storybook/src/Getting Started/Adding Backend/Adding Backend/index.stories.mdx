@@ -33,12 +33,12 @@ src/
 
 ## The **backend directory**
 
-- **backend** directory if it does not exists in your gluestack project's root directory
-- **backend/crons** directory with **crons.json** file which contains all your project specific CRONs
-- **backend/events** directory with **app** and **database** sub-directories all your project specific events
-    - **backend/events/app** directory will contain all the app events
-    - **backend/events/database** directory will contain all the database events
-- **backend/engine** directory contains the **gluestack backend engine server** which manages **Events**, **Crons** & **Queues**
+- **backend** directory if it does not exists in your gluestack project's root directory
+- **backend/crons** directory with **crons.json** file which contains all your project specific CRONs
+- **backend/events** directory with **app** and **database** sub-directories all your project specific events
+    - **backend/events/app** directory will contain all the app events
+    - **backend/events/database** directory will contain all the database events
+- **backend/engine** directory contains the **gluestack backend engine server** which manages **Events**, **Crons** & **Queues**
 
 ### **The router.js file**
 
@@ -70,9 +70,9 @@ This command helps you create a microservice in your gluestack project. To add a
 node glue service:add
 ```
 
-- This command will then ask you to "**Select a service plugin**" from a dropdown list. *Currently, we only support **@gluestack/glue-plugin-service-node** which is basically a microservice in NodeJS*
-- Once you have selected the **service plugin**, then you will be asked to "**Enter the instance name**"
-- That's it! Your new microservice with the provided name will be installed into your **backend/services** directory
+- This command will then ask you to "**Select a service plugin**" from a dropdown list. *Currently, we only support **@gluestack/glue-plugin-service-node** which is basically a microservice in NodeJS*
+- Once you have selected the **service plugin**, then you will be asked to "**Enter the instance name**"
+- That's it! Your new microservice with the provided name will be installed into your **backend/services** directory
 
 ```bash
 node glue service:add
@@ -116,13 +116,13 @@ Loaded route /health-check from health-check/handler.js
 ```bash
 node glue function:add list-todos
 
-****? Select a service plugin › - Use arrow-keys. Return to submit.
-❯   @gluestack/glue-plugin-service-node - Select a language for your service
+****? Select a service plugin > - Use arrow-keys. Return to submit.
+>   @gluestack/glue-plugin-service-node - Select a language for your service
 
-? Select an instance › - Use arrow-keys. Return to submit.
-❯   todos-service - Select todos-service instance
+? Select an instance > - Use arrow-keys. Return to submit.
+>   todos-service - Select todos-service instance
 
-✔ Select an instance › todos-service
+✔ Select an instance > todos-service
 ```
 
 ## **The folder structure**
@@ -150,7 +150,7 @@ This command helps you create a graphql workspace in your gluestack project.
 <aside>
 💡 graphql instance has a dependency on postgres instance
 
-Use `node glue add postgres postgres` to install the postgres plugin
+Use `node glue add postgres postgres` to install the postgres plugin
 
 </aside>
 
@@ -160,7 +160,7 @@ After adding postgres instance, to add graphql, you should run the following com
 node glue add graphql graphql
 ```
 
-- Your graphql instance will be installed into your **backend/services** directory
+- Your graphql instance will be installed into your **backend/services** directory
 
 ```bash
 > Installing 'graphql' from '@gluestack/glue-plugin-graphql'
@@ -182,7 +182,7 @@ Running this command will start up all the frontend and backend services provide
 <aside>
 💡 Here is a tip when using the Glue CLI:
 
-Use `node glue develop:watch` to run the Glue CLI in debug mode for more verbose output.
+Use `node glue develop:watch` to run the Glue CLI in debug mode for more verbose output.
 
 </aside>
 
@@ -202,6 +202,6 @@ Running `node glue deploy` command will deploy all the frontend and backend serv
 <aside>
 💡 Here is a tip when using the Glue CLI:
 
-Use `node glue deploy:watch` to run the Glue CLI in debug mode for more verbose output.
+Use `node glue deploy:watch` to run the Glue CLI in debug mode for more verbose output.
 
 </aside>

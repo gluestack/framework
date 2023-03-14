@@ -15,17 +15,17 @@ This command helps you create a microservice in your gluestack project. To add a
 node glue service:add
 ```
 
-- This command will then ask you to "**Select a service plugin**" from a dropdown list. *Currently, we only support **@gluestack/glue-plugin-service-node** which is basically a microservice in NodeJS*
-- Once you have selected the **service plugin**, then you will be asked to "**Enter the instance name**"
-- That's it! Your new microservice with the provided name will be installed into your **backend/services** directory
+- This command will then ask you to "**Select a service plugin**" from a dropdown list. *Currently, we only support **@gluestack/glue-plugin-service-node** which is basically a microservice in NodeJS*
+- Once you have selected the **service plugin**, then you will be asked to "**Enter the instance name**"
+- That's it! Your new microservice with the provided name will be installed into your **backend/services** directory
 
 ```bash
 node glue service:add
 
-? Select a service plugin › - Use arrow-keys. Return to submit.
-❯   @gluestack/glue-plugin-service-node - Select a language for your service
+? Select a service plugin > - Use arrow-keys. Return to submit.
+>   @gluestack/glue-plugin-service-node - Select a language for your service
 
-? Enter the instance name › todos-service
+? Enter the instance name > todos-service
 
 > Installing '@gluestack/glue-plugin-service-node' from '@gluestack/glue-plugin-service-node'
 > Sucessfully installed '@gluestack/glue-plugin-service-node' as instance todos-service in directory './backend/services/todos-service'
@@ -61,13 +61,13 @@ Loaded route /health-check from health-check/handler.js
 ```bash
 node glue function:add list-todos
 
-****? Select a service plugin › - Use arrow-keys. Return to submit.
-❯   @gluestack/glue-plugin-service-node - Select a language for your service
+****? Select a service plugin > - Use arrow-keys. Return to submit.
+>   @gluestack/glue-plugin-service-node - Select a language for your service
 
-? Select an instance › - Use arrow-keys. Return to submit.
-❯   todos-service - Select todos-service instance
+? Select an instance > - Use arrow-keys. Return to submit.
+>   todos-service - Select todos-service instance
 
-✔ Select an instance › todos-service
+✔ Select an instance > todos-service
 ```
 
 ## **The folder structure**
