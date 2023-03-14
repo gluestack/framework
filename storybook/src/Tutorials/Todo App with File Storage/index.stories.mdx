@@ -1,0 +1,28 @@
+---
+title: Todo App with File Storage | framework
+description: Todo App with File Storage | framework.
+---
+
+import { Canvas, Meta, Story } from '@storybook/addon-docs';
+
+<Meta title="Tutorials/Todo App with File Storage" />
+
+# Todo App with File Storage
+
+Now we'll take a look at the **todo-app-storage** application. Navigate to the **todo-app-storage** directory from the project root.
+
+```jsx
+cd todo-app-storage
+```
+
+In this tutorial, we are using **storage** to store **files** associated with the todo. To achieve this, we have used the **Minio** and **storage** plugins. You can add these plugins by running the following commands:
+
+```jsx
+// add minio
+node glue add minio minio
+
+// add storage
+node glue add storage storage
+```
+
+After installing the dependency, execute the command `node glue develop:up`. This will result in the addition of a new table named **files** to the database, as well as the inclusion of a new column named **file_id** in the **users** table.

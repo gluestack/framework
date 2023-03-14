@@ -1,0 +1,83 @@
+---
+title: Adding Web | framework
+description: Adding Web | framework.
+---
+
+import { Canvas, Meta, Story } from '@storybook/addon-docs';
+
+<Meta title="Getting started/Adding Web" />
+
+# Adding Web
+
+This command helps you create a frontend workspace in your gluestack project.
+
+```bash
+node glue add web website
+
+> Installing 'web' from '@gluestack/glue-plugin-web'
+
+? Select template: › - Use arrow-keys. Return to submit.
+❯   next-gluestack-ts
+    next-tailwind-ts
+    next-ts
+
+✔ Select template: › next-ts
+> Sucessfully installed 'web' as instance admin in directory './website'
+```
+
+## **The folder structure**
+
+You get a Next.js app in `website` with the following folder structure.
+
+```bash
+.env
+README.md
+next.config.js
+package.json
+pages/
+public/
+router.js
+styles
+tsconfig.json
+```
+
+### **The** pages **folder**
+
+In Next.js, a **page** is a [React Component](https://reactjs.org/docs/components-and-props.html) exported from a `.js`, `.jsx`, `.ts`, or `.tsx` file in the `pages` directory. Each page is associated with a route based on its file name.
+
+**Example**: If you create `pages/about.js` that exports a React component like below, it will be accessible at `/about`.
+
+```jsx
+export default function About() {
+  return <div>About</div>
+}
+```
+
+### **The router.js file**
+
+This file is treated as the upstream in the nginx configuration. It accepts following params in an array format:
+
+- **path**: The path to match on
+- **proxy**: The proxy configuration
+- **proxy.path**: The path to match on the proxied configuration
+- **size_in_mb**: The maximum size of the request body in megabytes, default is 50 mb
+
+```jsx
+module.exports = () => [
+  {
+    server_name: "website"
+  },
+  {
+    path: '/(.*)',
+    proxy: {
+      path: '/$1',
+      instance: "website:9000",
+    },
+    size_in_mb: '50',
+  },
+];
+```
+
+### **The package.json file**
+
+Since the add web command scaffolds a Next.js project, all the dependencies and its related information are stored in `package.json` file.

@@ -1,0 +1,38 @@
+---
+title: Todo App with Auth & Mail | framework
+description: Todo App with Auth & Mail | framework.
+---
+
+import { Canvas, Meta, Story } from '@storybook/addon-docs';
+
+<Meta title="Tutorials/Todo App with Auth & Mail" />
+
+# Todo App with Auth & Mail
+
+Now we'll take a look at the **todo-app-auth-mail** application. Navigate to the **todo-app-auth-mail** directory from the project root.
+
+```jsx
+cd todo-app-auth-mail
+```
+
+In this tutorial, we are using **nodemailer plugin** to send an **email** when a user is registered. To add **nodemailer** to our application, you can use this command.
+
+```jsx
+node glue add service-nodemailer nodemailer
+```
+
+We created a **microservice** called **auth-service** to configure nodemailer. This **microservice** contains a function called **user-created** which, when called, sends an **email** to the user.
+
+```jsx
+node glue fucntion:add <function-name>
+```
+
+To ensure that a **welcome email** is sent to users upon signup, we need to add an **event** in Hasura that triggers whenever a new user is created. This can be done by running the following command.
+
+```jsx
+node glue event:add 
+```
+
+While installing, you will be prompted to provide the **table** name and **function** name.
+
+After installing, start the application by running this command: `node glue develop:up`. Now, every time a new user signs up, a welcome email will be sent to the user.

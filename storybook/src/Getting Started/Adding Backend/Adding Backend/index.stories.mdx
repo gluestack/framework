@@ -1,0 +1,207 @@
+---
+title: Adding Backend | framework
+description: Adding Backend | framework.
+---
+
+import { Canvas, Meta, Story } from '@storybook/addon-docs';
+
+<Meta title="Getting started/Adding Backend/Adding Backend" />
+
+# Adding Backend
+
+This command helps you configure backend engine in your gluestack porject.
+
+```bash
+node glue add backend-engine engine
+
+> Installing 'backend-engine' from '@gluestack/glue-plugin-backend-engine'
+> Sucessfully installed 'backend-engine' as instance engine in directory './backend/engine'
+```
+
+## **The folder structure**
+
+You get a express.js app in `backend/engine` with the following folder structure.
+
+```bash
+.env
+README.md
+components
+package.json
+router.js
+src/
+```
+
+## The **backend directory**
+
+- **backend** directory if it does not exists in your gluestack project's root directory
+- **backend/crons** directory with **crons.json** file which contains all your project specific CRONs
+- **backend/events** directory with **app** and **database** sub-directories all your project specific events
+    - **backend/events/app** directory will contain all the app events
+    - **backend/events/database** directory will contain all the database events
+- **backend/engine** directory contains the **gluestack backend engine server** which manages **Events**, **Crons** & **Queues**
+
+### **The router.js file**
+
+This file is treated as the upstream in the nginx configuration.
+
+```jsx
+module.exports = () => {
+  return [
+    {
+      "path": "/backend/engine/(.*)",
+      "proxy": {
+        "instance": "engine:3500",
+        "path": "/v1.0/invoke/engine/method/$1"
+      }
+    }
+  ];
+};
+```
+
+### **The package.json file**
+
+Since the add backend-engine command scaffolds a express.js project, all the dependencies and its related information are stored in `package.json` file.
+
+# **Step 6:** Building REST APIs
+
+This command helps you create a microservice in your gluestack project. To add a new service, you should run the following command:
+
+```bash
+node glue service:add
+```
+
+- This command will then ask you to "**Select a service plugin**" from a dropdown list. *Currently, we only support **@gluestack/glue-plugin-service-node** which is basically a microservice in NodeJS*
+- Once you have selected the **service plugin**, then you will be asked to "**Enter the instance name**"
+- That's it! Your new microservice with the provided name will be installed into your **backend/services** directory
+
+```bash
+node glue service:add
+
+? Select a service plugin › - Use arrow-keys. Return to submit.
+❯   @gluestack/glue-plugin-service-node - Select a language for your service
+
+? Enter the instance name › todos-service
+
+> Installing '@gluestack/glue-plugin-service-node' from '@gluestack/glue-plugin-service-node'
+> Sucessfully installed '@gluestack/glue-plugin-service-node' as instance todos-service in directory './backend/services/todos-service'
+```
+
+## **The folder structure**
+
+You get a express.js app in `backend/services/todos-service` with the following folder structure.
+
+```bash
+.env
+.env.example
+README.md
+components
+functions/
+  function/
+  health-check/
+helpers/
+package.json
+router.js
+server.js
+```
+
+On local dev, it will register routes such as: 
+
+```bash
+Loaded route /function from function/handler.js
+Loaded route /health-check from health-check/handler.js
+```
+
+## Adding a REST Endpoint
+
+```bash
+node glue function:add list-todos
+
+****? Select a service plugin › - Use arrow-keys. Return to submit.
+❯   @gluestack/glue-plugin-service-node - Select a language for your service
+
+? Select an instance › - Use arrow-keys. Return to submit.
+❯   todos-service - Select todos-service instance
+
+✔ Select an instance › todos-service
+```
+
+## **The folder structure**
+
+You get a list-todos function in functions
+
+```bash
+functions/
+       function/
+       health-check/
+->new  list-todos/
+	       handler.js
+```
+
+On local dev, it will register a new route such as: 
+
+```bash
+Loaded route /list-todos from list-todos/handler.js
+```
+
+# **Step 7:** Building GraphQL APIs
+
+This command helps you create a graphql workspace in your gluestack project.
+
+<aside>
+💡 graphql instance has a dependency on postgres instance
+
+Use `node glue add postgres postgres` to install the postgres plugin
+
+</aside>
+
+After adding postgres instance, to add graphql, you should run the following command:
+
+```bash
+node glue add graphql graphql
+```
+
+- Your graphql instance will be installed into your **backend/services** directory
+
+```bash
+> Installing 'graphql' from '@gluestack/glue-plugin-graphql'
+> Sucessfully installed 'graphql' as instance graphql in directory './backend/services/graphql'
+```
+
+## **The folder structure**
+
+COPY FROM https://gluestack.io/docs/plugins/graphql/how-it-works
+
+# **Step X: Run the local dev environment**
+
+```bash
+node glue develop:up
+```
+
+Running this command will start up all the frontend and backend services provided by gluestack.
+
+<aside>
+💡 Here is a tip when using the Glue CLI:
+
+Use `node glue develop:watch` to run the Glue CLI in debug mode for more verbose output.
+
+</aside>
+
+# **Step Y:** Add deploy
+
+This command helps you deploy your gluestack app to our Seal platform. To add deploy, you should run the following command:
+
+```bash
+node glue add deploy deploy
+
+> Installing 'deploy' from '@gluestack/glue-plugin-deploy'
+> Sucessfully installed 'deploy' as instance deploy in directory ''
+```
+
+Running `node glue deploy` command will deploy all the frontend and backend services provided by gluestack.
+
+<aside>
+💡 Here is a tip when using the Glue CLI:
+
+Use `node glue deploy:watch` to run the Glue CLI in debug mode for more verbose output.
+
+</aside>

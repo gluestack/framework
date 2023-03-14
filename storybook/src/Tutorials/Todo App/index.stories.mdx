@@ -1,0 +1,51 @@
+---
+title: Todo App | framework
+description: Todo App | framework.
+---
+
+import { Canvas, Meta, Story } from '@storybook/addon-docs';
+
+<Meta title="Tutorials/Todo App" />
+
+# Todo App
+
+We will go through a Todo application and understand the specific **plugins** that have been implemented. To do so, first, we need to clone it.
+
+```jsx
+git clone git@github.com:gluestack/todoapp-tailwind.git
+
+// navigate into the project
+cd todoapp-tailwind
+```
+
+We have four different types of **Todo** applications in this repository, including **Todo App**, **Todo App with Auth**, **Todo App with Mail**, and **Todo App with Storage**.
+
+We will begin with the Todo app. Navigate to this folder.
+
+```jsx
+cd todo-app
+```
+
+In this application, we have used three plugins: **Postgres**, **GraphQL**, and **Web**.
+
+```jsx
+// Add PostgreSQL
+node glue add postgres postgres
+
+// Add GraphQL
+node glue add graphql graphql
+
+// Add web
+node glue add web todo-web
+```
+
+After installing the node modules, start the application by running the command `node glue develop:up`. This will expose a GraphQL endpoint through Docker at [http://localhost:8080](http://localhost:8080). By opening this in a browser, you can access the **Hasura console**, which is connected to the **Postgres** database.
+
+Here, you can see that the **todos** table already exists.
+
+
+## Todo Web
+
+In the **todo-web** directory, there is a **codegen.ts** file used for generating the GraphQL schema. The todo GraphQL queries and mutations can be found in the **services/graphql** directory.
+
+Now, open the Todoweb endpoint from Docker, where you will see the Todo application running.

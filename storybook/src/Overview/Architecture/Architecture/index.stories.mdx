@@ -5,7 +5,7 @@ description: Architecture of framework.
 
 import { Canvas, Meta, Story } from '@storybook/addon-docs';
 
-<Meta title="Overview/Architecture" />
+<Meta title="Overview/Architecture/Architecture" />
 
 # Architecture
 
@@ -61,8 +61,14 @@ We have also built a set of core plugins which are listed below. You can refer t
 - **auth**
 - **graphql** (Hasura)
 - **functions** (Dapr)
+  - **service node**
+  - **service nodemailer**
 - **storage**
-- **jobs**
-- **cron**
+- **backend-engine**
+  - **jobs** (Queues)
+  - **crons**
+  - **service invocation**
 
 We have an optional plugin that makes deploying any gluestack app to the Seal platform easy. Seal is a hosting service optimized and built for gluestack apps by the creators of gluestack.
+
+- **deploy**

@@ -1,0 +1,28 @@
+---
+title: Add deploy | framework
+description: Add deploy | framework.
+---
+
+import { Canvas, Meta, Story } from '@storybook/addon-docs';
+
+<Meta title="Getting started/Adding Deploy" />
+
+# Add deploy
+
+This command helps you deploy your gluestack app to our Seal platform. To add deploy, you should run the following command:
+
+```bash
+node glue add deploy deploy
+
+> Installing 'deploy' from '@gluestack/glue-plugin-deploy'
+> Sucessfully installed 'deploy' as instance deploy in directory ''
+```
+
+Running `node glue deploy` command will deploy all the frontend and backend services provided by gluestack.
+
+<aside>
+💡 Here is a tip when using the Glue CLI:
+
+Use `node glue deploy:watch` to run the Glue CLI in debug mode for more verbose output.
+
+</aside>

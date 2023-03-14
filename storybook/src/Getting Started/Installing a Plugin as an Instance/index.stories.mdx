@@ -1,0 +1,36 @@
+---
+title: Installing a Plugin as an Instance | framework
+description: Installing a Plugin as an Instance | framework.
+---
+
+import { Canvas, Meta, Story } from '@storybook/addon-docs';
+
+<Meta title="Getting started/Installing a Plugin as an Instance" />
+
+# Installing a Plugin as an Instance
+
+You can pull the basic web template by running the following command.
+
+```bash
+node glue add web dashboard  
+```
+
+The current version of the web plugin uses Next.js and the source code can be found at
+
+`@gluestack/glue-plugin-web`on npm. This interactively takes the name of the web project. You may give it a name like `dashboard` or `landing`.
+
+**Note:** You can create multiple web projects in the same gluestack app. We call them instances of web plugin.
+
+```bash
+node glue add web dashboard
+
+> Installing 'web' from '@gluestack/glue-plugin-web'
+
+? Select template: › - Use arrow-keys. Return to submit.
+❯   next-gluestack-ts
+    next-tailwind-ts
+    next-ts
+
+✔ Select template: › next-ts
+> Sucessfully installed 'web' as instance dashboard in directory './dashboard'
+```

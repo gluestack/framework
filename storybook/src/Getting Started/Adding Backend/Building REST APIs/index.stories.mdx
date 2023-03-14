@@ -1,0 +1,89 @@
+---
+title: Building REST APIs | framework
+description: Building REST APIs | framework.
+---
+
+import { Canvas, Meta, Story } from '@storybook/addon-docs';
+
+<Meta title="Getting started/Adding Backend/Building REST APIs" />
+
+# Building REST APIs
+
+This command helps you create a microservice in your gluestack project. To add a new service, you should run the following command:
+
+```bash
+node glue service:add
+```
+
+- This command will then ask you to "**Select a service plugin**" from a dropdown list. *Currently, we only support **@gluestack/glue-plugin-service-node** which is basically a microservice in NodeJS*
+- Once you have selected the **service plugin**, then you will be asked to "**Enter the instance name**"
+- That's it! Your new microservice with the provided name will be installed into your **backend/services** directory
+
+```bash
+node glue service:add
+
+? Select a service plugin › - Use arrow-keys. Return to submit.
+❯   @gluestack/glue-plugin-service-node - Select a language for your service
+
+? Enter the instance name › todos-service
+
+> Installing '@gluestack/glue-plugin-service-node' from '@gluestack/glue-plugin-service-node'
+> Sucessfully installed '@gluestack/glue-plugin-service-node' as instance todos-service in directory './backend/services/todos-service'
+```
+
+## **The folder structure**
+
+You get a express.js app in `backend/services/todos-service` with the following folder structure.
+
+```bash
+.env
+.env.example
+README.md
+components
+functions/
+  function/
+  health-check/
+helpers/
+package.json
+router.js
+server.js
+```
+
+On local dev, it will register routes such as: 
+
+```bash
+Loaded route /function from function/handler.js
+Loaded route /health-check from health-check/handler.js
+```
+
+## Adding a REST Endpoint
+
+```bash
+node glue function:add list-todos
+
+****? Select a service plugin › - Use arrow-keys. Return to submit.
+❯   @gluestack/glue-plugin-service-node - Select a language for your service
+
+? Select an instance › - Use arrow-keys. Return to submit.
+❯   todos-service - Select todos-service instance
+
+✔ Select an instance › todos-service
+```
+
+## **The folder structure**
+
+You get a list-todos function in functions
+
+```bash
+functions/
+       function/
+       health-check/
+->new  list-todos/
+	       handler.js
+```
+
+On local dev, it will register a new route such as: 
+
+```bash
+Loaded route /list-todos from list-todos/handler.js
+```

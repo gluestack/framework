@@ -1,0 +1,26 @@
+---
+title: Todo App with Auth | framework
+description: Todo App with Auth | framework.
+---
+
+import { Canvas, Meta, Story } from '@storybook/addon-docs';
+
+<Meta title="Tutorials/Todo App with Auth" />
+
+# Todo App with Auth
+
+Now we'll take a look at the **todo-app-auth** application. Navigate to the **todo-app-auth** directory from the project root.
+
+```jsx
+cd todo-app-auth
+```
+
+In this tutorial, **authentication** is enabled in the todo application. For **authentication**, we've used the **auth plugin**.
+
+```jsx
+node glue add auth auth
+```
+
+After installing, start the application by running this command: `node glue develop:up`. A new table named **users** will be automatically created in the database. 
+
+Additionally, we have the **sign-in** and **sign-up** pages in the **todo-web** application.

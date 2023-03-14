@@ -1,0 +1,40 @@
+---
+title: Bootstrap Project | framework
+description: Bootstrap Project | framework.
+---
+
+import { Canvas, Meta, Story } from '@storybook/addon-docs';
+
+<Meta title="Getting started/Bootstrap Project" />
+
+# Bootstrap Project
+
+## Create a gluestack app.
+
+```bash
+npx create-gluestack-app@latest my-gluestack-app
+```
+
+## The folder structure
+
+You get a basic gluestack app with the following folder structure. This is a Node project. (This isn’t a monorepo yet).
+
+```bash
+.env
+glue
+meta/
+package.json
+README.md
+```
+
+### **The meta folder**
+
+This folder keeps the config that’s needed by the framework. Plugins use this folder to store their persistent information too.
+
+### **The glue command**
+
+This is a Node.js file, a command that points to the CLI of the locally installed framework. We can use this by running `node glue`. Try it out to list the commands that are registered.
+
+### **The package.json file**
+
+Since the create-project command scaffolds a Node project, all the dependencies and its related information are stored in `package.json` file.
