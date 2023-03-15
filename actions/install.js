@@ -12,6 +12,7 @@ const { writePlugin } = require('../helpers/meta/plugins');
 const getPlugin = require('../helpers/getPlugin');
 const isGluePackage = require('../helpers/isGluePackage');
 const getDependencies = require('../helpers/get-dependencies');
+const removeSpecialChars = require('../helpers/remove-special-chars');
 
 const prefix = 'glue-plugin-';
 
@@ -26,6 +27,15 @@ async function validateAndGet(pluginName, instanceName) {
 
 	if (!isGluePackage(packageName)) {
 		error(`"${packageName}" is not supported`);
+		process.exit(0);
+	}
+
+	instanceName = removeSpecialChars(instanceName);
+
+	if (instanceName.indexOf('/') !== -1) {
+		error(
+			`${instanceName} is not valid, does not support nested instance.`
+		);
 		process.exit(0);
 	}
 
