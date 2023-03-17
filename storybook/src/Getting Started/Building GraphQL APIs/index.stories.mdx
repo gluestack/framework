@@ -1,0 +1,62 @@
+---
+title: Building GraphQL APIs | framework
+description: Building GraphQL APIs | framework.
+---
+
+import { Canvas, Meta, Story } from '@storybook/addon-docs';
+
+<Meta title="Getting started/Building GraphQL APIs" />
+
+# Building GraphQL APIs
+
+This command helps you create a graphql workspace in your gluestack project. 
+
+<aside>
+💡 graphql instance has a dependency on postgres instance
+
+Use `node glue add postgres postgres` to install the postgres plugin
+
+</aside>
+
+After adding postgres instance, to add graphql, you should run the following command:
+
+```bash
+node glue add graphql graphql
+```
+
+- Your graphql instance will be installed into your **backend/services** directory
+
+```bash
+> Installing 'graphql' from '@gluestack/glue-plugin-graphql'
+> Sucessfully installed 'graphql' as instance graphql in directory './backend/services/graphql'
+```
+
+## Attaching a REST Endpoint as GraphQL Action
+
+This command helps you integrate a REST endpoint into a service and expose it as a GraphQL action. To add a new action, you should run the following command:
+
+```bash
+node glue function:attach-action
+
+****? Select a service plugin > - Use arrow-keys. Return to submit.
+>   @gluestack/glue-plugin-service-node - Select a language for your service
+
+? Select an instance > - Use arrow-keys. Return to submit.
+>   todos-services - Select auth-services instance
+
+? Select a function > - Use arrow-keys. Return to submit.
+>   list-todos
+    function
+    health-check
+```
+
+## **The folder structure**
+
+You got two new files in **list-todos** function
+
+```bash
+list-todos/
+->new  action.graphql
+->new  action.setting
+       handler.js
+```

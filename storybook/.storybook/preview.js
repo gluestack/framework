@@ -39,11 +39,8 @@ export const parameters = {
 					'Installing a Plugin as an Instance',
 					'Adding Web',
 					'Adding Backend',
-					[
-						'Adding Backend',
-						'Building REST APIs',
-						'Building GraphQL APIs',
-					],
+					'Building REST APIs',
+					'Building GraphQL APIs',
 					// 'Adding UI Framework',
 					// 'Adding Mobile',
 					'Adding Deploy',
