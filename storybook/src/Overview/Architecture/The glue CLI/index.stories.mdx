@@ -19,46 +19,44 @@ Options:
   -h, --help                                 display help for command
 
 Commands:
-  plugin-list                                Prints the list of available plugins
-  plugin-init                                Initializes the gluestack app as a plugin
-  publish                                    Publishes the gluestack app as a plugin
-  plugin-version                             Prints the current version of the plugin
-  instance-list                              Prints the list of installed plugin instances
   add|install <plugin-name> <instance-name>  installs a gluestack plugin, use help for more info on subcommands
-  develop:list                               Lists all the container instances
-  develop:up [instance-name]                 Starts provided container instances or all the containers if no instance is
-                                             provided
-  develop:down [instance-name]               Stops provided container instances or all the containers if no instance is
-                                             provided
-  build [instance-name]                      Builds provided container instances or all the containers if no instance is
-                                             provided
-  route:list                                 Prints a table of entries of the registered routes
-  route:generate                             Generates nginx config from registered routes
+  publish                                    Publishes the gluestack app as a plugin
+  instance:list                              Prints the list of installed plugin instances
+  plugin:list                                Prints the list of available plugins
+  plugin:init                                Initializes the gluestack app as a plugin
+  plugin:version                             Prints the current version of the plugin
+  service:add                                Adds a micro-service to the project
+  event:add                                  Creates the event
+  event:list [options]                       List the events
+  event:remove [options]                     Remove events
+  cron:add                                   Create the cron
+  cron:list                                  List all Crons
+  cron:remove                                List the cron jobs with select option
+  deploy [options]                           Prepares the compressed project & initiates the deployment
+  deploy:watch [options]                     Prepares the compressed project & initiates the deployment
+  develop:list [options]                     Lists all the container instances
+  develop:up                                 Starts all the containers for the project.
+  develop:down                               Stops all the project containers
+  develop:watch                              Watches and restarts containers when registered plugins files changes
+  build [instance-name]                      Builds provided container instances or all the containers if no instance is provided
+  env:generate [options]                     Generates .env.generated for all the instances
+  graphql:console [options] <instance-name>  Opens up Hasura Console against the provided GraphlQL instance name
+  postgres:list                              List installed postgres instances
+  postgres:config                            Update config of a postgres instance
+  route:devonly                              Shows list of routings against 'devonly' plugins
+  route:list                                 Gets routes list
+  route:generate [options]                   Generates router file for all the container instances
+  route:endpoints                            Gets route endpoints list
+  function:add <function-name>               Adds an express action (handler) to the project
+  function:attach-action                     Adds a graphql action against the function
   help [command]                             display help for command
 ```
 
 The `glue` file is just a JS file using which you can interact and perform all actions provided by the framework using node. Here are the details of the commands available.
 
-- **plugin-list**
-  To list all the plugins provided by the framework you can run the command `node glue plugin-list`. This would list all the plugins that are provided by the framework.
+- **add|install**
 
-```jsx
-│  (index)  │        package         │              description               │
-├───────────┼────────────────────────┼────────────────────────────────────────┤
-│    web    │    '@gluestack/web'    │    'Installs a Next.js App Plugin'     │
-│  mobile   │  '@gluestack/mobile'   │  'Installs a React Native App Plugin'  │
-│ storybook │ '@gluestack/storybook' │   'Installs a Storybook App Plugin'    │
-│ functions │ '@gluestack/functions' │  'Installs a Function for computing'   │
-│  graphql  │  '@gluestack/graphql'  │ 'Installs a Hasura GraphQL App Plugin' │
-│   auth    │   '@gluestack/auth'    │      'Installs auth in your App'       │
-│  storage  │  '@gluestack/storage'  │     'Installs storage in your App'     │
-│   cron    │   '@gluestack/cron'    │      'Installs Cron in your App'       │
-│   jobs    │   '@gluestack/jobs'    │      'Installs Jobs in your App'       │
-```
-
-- **add/install**
-
-  To add a plugin from existing plugin list you run this command `node glue add <plugin-name> <plugin-name>`. Example:
+  To add a plugin from existing plugin list, you run this command `node glue add <plugin-name> <plugin-name>`. Example:
 
   ```jsx
   node glue add web mywebapp
@@ -66,15 +64,194 @@ The `glue` file is just a JS file using which you can interact and perform all a
 
   The above command will install the web plugin in the folder mywebapp.
 
-- **plugin-init**
-  To create your own plugin
 - **publish**
-- **plugin-version**
-- **instance-list**
+
+  To publish the gluestack app, you run this command `node glue publish`.
+
+- **instance:list**
+
+  To list all the plugins & instances in your application, you can run the command `node glue plugin:list`.
+
+- **plugin:list**
+  
+  To list all the plugins provided by the framework, you can run the command `node glue plugin:list`. This would list all the plugins that are provided by the framework.
+
+  ```jsx
+  ┌────────────────────┬─────────────────────────────────────────────┬──────────────────────────────────────────────────────────────────────┐
+  │      (index)       │                   package                   │                             description                              │
+  ├────────────────────┼─────────────────────────────────────────────┼──────────────────────────────────────────────────────────────────────┤
+  │        web         │        '@gluestack/glue-plugin-web'         │                   'Installs a Next.js App Plugin'                    │
+  │     storybook      │     '@gluestack/glue-plugin-storybook'      │                  'Installs a Storybook App Plugin'                   │
+  │       engine       │       '@gluestack/glue-plugin-engine'       │         'Installs a GlueStack Process Manager Engine Plugin'         │
+  │      postgres      │      '@gluestack/glue-plugin-postgres'      │                'Installs a Postgres Database Plugin'                 │
+  │      pg-admin      │      '@gluestack/glue-plugin-pg-admin'      │                'Installs a PG Admin Database Plugin'                 │
+  │      graphql       │      '@gluestack/glue-plugin-graphql'       │                'Installs a Hasura GraphQL App Plugin'                │
+  │    service-node    │    '@gluestack/glue-plugin-service-node'    │                   'Installs a Node micro-service'                    │
+  │ service-nodemailer │ '@gluestack/glue-plugin-service-nodemailer' │                'Installs a Nodemailer micro-service'                 │
+  │   backend-engine   │   '@gluestack/glue-plugin-backend-engine'   │ 'Installs a Backend GlueStack Engine App Plugin with CRONs & Queues' │
+  │        auth        │        '@gluestack/glue-plugin-auth'        │                     'Installs auth in your App'                      │
+  │       minio        │       '@gluestack/glue-plugin-minio'        │                  'Installs a Minio Storage Plugin'                   │
+  │      storage       │      '@gluestack/glue-plugin-storage'       │                    'Installs storage in your App'                    │
+  │        sdk         │        '@gluestack/glue-plugin-sdk'         │                  'Installs a GlueStack SDK Plugin'                   │
+  │       deploy       │       '@gluestack/glue-plugin-deploy'       │                 'Installs a GlueStack Deploy Plugin'                 │
+  └────────────────────┴─────────────────────────────────────────────┴──────────────────────────────────────────────────────────────────────┘
+  ```
+- **plugin:init**
+
+  To Initializes your gluestack project as a `instance` or `container` plugin, you can run the following commands. Example:
+
+  ```jsx
+  // Initializes as an instance
+  node glue plugin:init instance
+
+  // Initializes as an container
+  node glue plugin:init container
+  ```
+
+<!-- - **plugin:version** ERROR: > Plugin not initialized -->
+
+- **service:add**
+
+  To add an Express application as a service, you can use the following command: `node glue service:add`. Example:
+  ```bash
+  ? Select a service plugin > - Use arrow-keys. Return to submit.
+  >   @gluestack/glue-plugin-service-node - Select a language for your service
+
+  ? Enter the instance name > todos-services
+
+  > Installing '@gluestack/glue-plugin-service-node' from '@gluestack/glue-plugin-service-node'
+  > Sucessfully installed '@gluestack/glue-plugin-service-node' as instance todos-services in directory './backend/services/todos-services'
+  ```
+
+- **event:add**
+
+  To add an event, you can use the following command: `node glue event:add`. Example:
+  ```bash
+  ? Select Events Type > - Use arrow-keys. Return to submit.
+  >   database - Create Database Event
+      app
+
+  ? Please provide table name against which you want to create event > users
+
+  ? Multi-select database events >  
+  Instructions:
+      ↑/↓: Highlight option
+      ←/→/[space]: Toggle selection
+      a: Toggle all
+      enter/return: Complete answer
+  ◉   insert - Create Insert Database Event
+  ◯   update
+  ◯   delete
+
+  ? Select Events Kind > - Use arrow-keys. Return to submit.
+  >   sync - Synchronous Event Kind
+      async
+
+  ? Select Events Callback Type > - Use arrow-keys. Return to submit.
+  >   function - Callback to a Gluestack Service
+      webhook
+
+  ? Select a service plugin > - Use arrow-keys. Return to submit.
+  >   todos-services - Select instance todos-services
+
+  ? Select a function > - Use arrow-keys. Return to submit.
+  >   list-todos
+      function
+      health-check
+  ```
+
+- **event:list**
+
+  To list all events, you can use the following command: `node glue event:list`. Example:
+
+  ```bash
+  ╔══════════════════════════╤═════════════════════════════╤══════════╤═══════════════╗
+  ║ Filepath                 │ Functions                   │ Webhooks │ Modified on   ║
+  ╟──────────────────────────┼─────────────────────────────┼──────────┼───────────────╢
+  ║ database/users/insert.js │ todos-services::list-todos  │          │ a few seconds ║
+  ╚══════════════════════════╧═════════════════════════════╧══════════╧═══════════════╝
+  ```
+
+- **event:remove**
+
+  To remove a event, you can run the following command: `node glue event:remove --t database`. Example:
+
+  ```bash
+  ? Select event(s) to remove >  
+  Instructions:
+      ↑/↓: Highlight option
+      ←/→/[space]: Toggle selection
+      a: Toggle all
+      enter/return: Complete answer
+  ◉   database > users > insert.js > {"kind":"sync","type":"function","value":"todos-services::list-todos"}
+
+  ? Are you sure you want to remove these event(s)? > (y/N)
+  ```
+
+- **cron:add**
+
+  To add a cron, you can run the following command: `node glue cron:add`. Example:
+
+  ```bash
+  ? Please provide a valid cron schedule > * * * * *
+
+  ? Select Crons Callback Type > - Use arrow-keys. Return to submit.
+  >   function - Callback to a Gluestack Service
+      webhook
+
+  ? Select a service plugin > - Use arrow-keys. Return to submit.
+  >   todos-services - Select instance todos-services
+
+  ? Select a function > - Use arrow-keys. Return to submit.
+  >   list-todos
+      function
+      health-check
+  ```
+
+- **cron:list**
+
+  To list all crons, you can use the following command: `node glue cron:list`. Example:
+
+  ```bash
+  ╔═══════════╤════════════════════════════════════════════╗
+  ║ Schedule  │ Run                                        ║
+  ╟───────────┼────────────────────────────────────────────╢
+  ║ * * * * * │ function() [todos-services::list-todos]    ║
+  ╚═══════════╧════════════════════════════════════════════╝
+  Crons last updated: a few seconds
+  ```
+
+- **cron:remove**
+
+  To remove a cron, you can run the following command: `node glue cron:remove`. Example:
+
+  ```bash
+  ? Select cron(s) to remove ›  
+  Instructions:
+      ↑/↓: Highlight option
+      ←/→/[space]: Toggle selection
+      a: Toggle all
+      enter/return: Complete answer
+  ◉   {"schedule": "* * * * *", "type": "function", "value": "todos-services::list-todos"}
+
+  ? Are you sure you want to remove these cron(s)? > (y/N) y
+  ```
+
+- **deploy**
+- **deploy:watch**
 - **develop:list**
 - **develop:up**
 - **develop:down**
+- **develop:watch**
 - **build**
+- **env:generate**
+- **graphql:console**
+- **postgres:list**
+- **postgres:config**
+- **route:devonly**
 - **route:list**
 - **route:generate**
+- **route:endpoints**
+- **function:add**
+- **function:attach-action**
 - **help**
