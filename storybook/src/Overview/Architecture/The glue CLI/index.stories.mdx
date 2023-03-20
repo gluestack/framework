@@ -27,28 +27,16 @@ Commands:
   plugin:list                                Prints the list of available plugins
   plugin:init                                Initializes the gluestack app as a plugin
   plugin:version                             Prints the current version of the plugin
-  service:add                                Adds a micro-service to the project
-  event:add                                  Creates the event
-  event:list [options]                       List the events
-  event:remove [options]                     Remove events
-  cron:add                                   Create the cron
-  cron:list                                  List all Crons
-  cron:remove                                List the cron jobs with select option
   develop:list [options]                     Lists all the container instances
   develop:up                                 Starts all the containers for the project.
   develop:down                               Stops all the project containers
   develop:watch                              Watches and restarts containers when registered plugins files changes
   build [instance-name]                      Builds provided container instances or all the containers if no instance is provided
   env:generate [options]                     Generates .env.generated for all the instances
-  graphql:console [options] <instance-name>  Opens up Hasura Console against the provided GraphlQL instance name
-  postgres:list                              List installed postgres instances
-  postgres:config                            Update config of a postgres instance
   route:devonly                              Shows list of routings against 'devonly' plugins
   route:list                                 Gets routes list
   route:generate [options]                   Generates router file for all the container instances
   route:endpoints                            Gets route endpoints list
-  function:add <function-name>               Adds an express action (handler) to the project
-  function:attach-action                     Adds a graphql action against the function
   help [command]                             display help for command
 ```
 
